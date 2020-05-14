@@ -9,8 +9,8 @@ class Option extends Model
     protected $table = 'Options';
     protected $fillable = [
       'option_text',
-      'option_date', 
-      'is_published'
+      'option_date',
+      'question_id'
     ];
 
     /**
