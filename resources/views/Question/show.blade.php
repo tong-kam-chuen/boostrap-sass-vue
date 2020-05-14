@@ -4,7 +4,7 @@
     <div class="row justify-content-center mb-3">
 
     <div class="col-md-12 col-md-offset-0">
-        <h3 class="text-center">Manage Questionnaires</h3>
+        <h3 class="text-center">Manage Questions</h3>
         <br />
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -22,32 +22,26 @@
                         <thead>
                             <tr>
                                 <th valign="middle">#</th>
-                                <th>Name</th>
-                                <th>Date_start</th>
-                                <th>Date_end</th>
-                                <th>Published?</th>
-                                <th>Last updated</th>
+                                <th>Text</th>
+                                <th>Date</th>
+                                <th>Type</th>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
                         </thead>
                         <tbody>
-                            @foreach($Questionnaires as $indexKey => $record)
-                                <tr class="item{{$record->id}} @if($record->is_published) warning @endif">
+                            @foreach($Questions as $indexKey => $record)
+                                <tr class="item{{$record->id}}">
                                     <td class="col1">{{ $record->id }}</td>
-                                    <td>{{$record->questionnaire_name}}</td>
-                                    <td>{{$record->questionnaire_date_start}}</td>
-                                    <td>{{$record->questionnaire_date_end}}</td>
-                                    <td class="text-center">
-                                      <input type="checkbox" class="published" id="" data-id="{{$record->id}}" @if ($record->is_published) checked @endif >
-                                    </td>
-                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $record->updated_at)->diffForHumans() }}</td>
+                                    <td>{{$record->question_text}}</td>
+                                    <td>{{$record->question_date}}</td>
+                                    <td>{{$record->question_type}}</td>
                                     <td>
-                                        <button class="show-modal btn btn-success" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                        <button class="show-modal btn btn-success" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                        <button class="edit-modal btn btn-info" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                        <button class="delete-modal btn btn-danger" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-trash"></span> Delete</button>
                                         <a href="{{ route('Questions.show', $record->id) }}"><button class="btn btn-success">
                                         <span class="glyphicon glyphicon-eye-open"></span> Details</button></a>
@@ -71,23 +65,29 @@
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="name">Name:</label>
+                            <label class="control-label col-sm-2" for="questionaire_id">Parent#:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name_add" autofocus />
+                                <input type="text" class="form-control" id="questionaire_id" value="{{ $questionaire_id }}" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="text">Text:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="text_add" autofocus />
                                 <small>Min: 2, Max: 250, only text</small>
                                 <p class="errorName text-center alert alert-danger hidden"></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_start">Start_At:</label>
+                            <label class="control-label col-sm-2" for="date">Date:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_start_add" />
+                                <input type="date" class="form-control" id="date_add" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_end">End_At:</label>
+                            <label class="control-label col-sm-2" for="type">Type:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_end_add" />
+                                <input type="text" class="form-control" id="type_add" />
                             </div>
                         </div>
                     </form>
@@ -121,21 +121,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="name">Name:</label>
+                            <label class="control-label col-sm-2" for="text">Text:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name_show" disabled />
+                                <input type="text" class="form-control" id="text_show" disabled />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_start">Start_At:</label>
+                            <label class="control-label col-sm-2" for="date">Date:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_start_show" disabled />
+                                <input type="date" class="form-control" id="date_show" disabled />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_end">End_At:</label>
+                            <label class="control-label col-sm-2" for="type">Type:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_end_show" disabled />
+                                <input type="text" class="form-control" id="type_show" disabled />
                             </div>
                         </div>
                     </form>
@@ -166,22 +166,22 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="name">Name:</label>
+                            <label class="control-label col-sm-2" for="text">Text:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name_edit" autofocus />
+                                <input type="text" class="form-control" id="text_edit" autofocus />
                                 <p class="errorName text-center alert alert-danger hidden"></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_start">Start_At:</label>
+                            <label class="control-label col-sm-2" for="date">Date:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_start_edit" />
+                                <input type="date" class="form-control" id="date_edit" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_end">End_At:</label>
+                            <label class="control-label col-sm-2" for="type">Type:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_end_edit" />
+                                <input type="text" class="form-control" id="type_edit" />
                             </div>
                         </div>
                     </form>
@@ -217,22 +217,22 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="name">Name:</label>
+                            <label class="control-label col-sm-2" for="text">Text:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name_delete" disabled />
+                                <input type="text" class="form-control" id="text_delete" disabled />
                                 <p class="errorName text-center alert alert-danger hidden"></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_start">Start_At:</label>
+                            <label class="control-label col-sm-2" for="date">Date:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_start_delete" disabled />
+                                <input type="date" class="form-control" id="date_delete" disabled />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date_end">End_At:</label>
+                            <label class="control-label col-sm-2" for="type">Type:</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_end_delete" disabled />
+                                <input type="text" class="form-control" id="type_delete" disabled />
                             </div>
                         </div>
                     </form>
@@ -271,54 +271,28 @@
     })
 </script>
 
-<script>
-    $(document).ready(function(){
-        $('.published').iCheck({
-            checkboxClass: 'icheckbox_square-yellow',
-            radioClass: 'iradio_square-yellow',
-            increaseArea: '20%'
-        });
-        $('.published').on('ifClicked', function(event){
-            id = $(this).data('id');
-            $.ajax({
-                type: 'POST',
-                url: "{{ URL::route('changeStatus') }}",
-                data: {
-                    '_token': $('input[name=_token]').val(),
-                    'id': id
-                },
-                success: function(data) {
-                    // empty
-                },
-            });
-        });
-        $('.published').on('ifToggled', function(event) {
-            $(this).closest('tr').toggleClass('warning');
-        });
-    });
-</script>
-
 <!-- AJAX CRUD operations -->
 
 <script type="text/javascript">
     // add a new record
     $(document).on('click', '.add-modal', function() {
         // Empty input fields
-        $('#name_add')      .val('');
-        $('#date_start_add').val('');
-        $('#date_end_add')  .val('');
+        $('#text_add')      .val('');
+        $('#date_add')      .val('');
+        $('#type_add')      .val('');
         $('.modal-title')   .text('Add');
         $('#addModal')      .modal('show');
     });
     $('.modal-footer').on('click', '.add', function() {
         $.ajax({
             type: 'POST',
-            url: 'Questionnaires',
+            url: 'Questions',
             data: {
-                '_token'                   : $('input[name=_token]').val(),
-                'questionnaire_name'       : $('#name_add').val(),
-                'questionnaire_date_start' : $('#date_start_add').val(),
-                'questionnaire_date_end'   : $('#date_end_add').val()
+                '_token'             : $('input[name=_token]').val(),
+                'question_text'      : $('#text_add').val(),
+                'question_date'      : $('#date_add').val(),
+                'question_type'      : $('#type_add').val(),
+                'questionaire_id'    : $('#questionaire_id').val()
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -336,60 +310,36 @@
                 } else {
                     toastr.success('Successfully added record!', 'Success Alert', {timeOut: 5000});
                     $('#recordTable').prepend(
-                    +                            '' + "<tr class='item"
-                    + data.id                       + "'><td class='col1'>"
-                    + data.id                       + "</td><td>"
-                    + data.questionnaire_name       + "</td><td>"
-                    + data.questionnaire_date_start + "</td><td>"
-                    + data.questionnaire_date_end   + "</td><td class='text-center'>"
-                    +                            '' + "<input type='checkbox' class='new_published' data-id='"
-                    + data.id                       + "'></td><td>Just now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                            '' + "<a href='{{ route('Questions.show', "
-                    + data.id                       + ") }}''>"
-                    +                            '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
-                    +                            '' + "</td></tr>"
+                    +                       '' + "<tr class='item"
+                    + data.id                  + "'><td class='col1'>"
+                    + data.id                  + "</td><td>"
+                    + data.question_text       + "</td><td>"
+                    + data.question_date       + "</td><td>"
+                    + data.question_type       + "</td><td>"
+                    +                       '' + "<button class='show-modal btn btn-success' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'>"
+                    +                       '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
+                    +                       '' + "<button class='edit-modal btn btn-info' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'>"
+                    +                       '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
+                    +                       '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'>"
+                    +                       '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    +                       '' + "<a href='{{ route('Options.show', "
+                    + data.id                  + ") }}''>"
+                    +                       '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
+                    +                       '' + "</td></tr>"
                     );
 
-                    $('.new_published').iCheck({
-                        checkboxClass: 'icheckbox_square-yellow',
-                        radioClass: 'iradio_square-yellow',
-                        increaseArea: '20%'
-                    });
-                    $('.new_published').on('ifToggled', function(event){
-                        $(this).closest('tr').toggleClass('warning');
-                    });
-                    $('.new_published').on('ifChanged', function(event){
-                        id = $(this).data('id');
-                        $.ajax({
-                            type: 'POST',
-                            url: "{{ URL::route('changeStatus') }}",
-                            data: {
-                                '_token': $('input[name=_token]').val(),
-                                'id': id
-                            },
-                            success: function(data) {
-                                // empty
-                            },
-                        });
-                    });
                     $('.col1').each(function (index) {
                         $(this).html(index+1);
                     });
@@ -402,9 +352,9 @@
     $(document).on('click', '.show-modal', function() {
         $('.modal-title')    .text('Show');
         $('#id_show')        .val($(this).data('id'));
-        $('#name_show')      .val($(this).data('name'));
-        $('#date_start_show').val($(this).data('date_start'));
-        $('#date_end_show')  .val($(this).data('date_end'));
+        $('#text_show')      .val($(this).data('text'));
+        $('#date_show')      .val($(this).data('date'));
+        $('#type_show')      .val($(this).data('type'));
         $('#showModal')      .modal('show');
     });
 
@@ -412,22 +362,22 @@
     $(document).on('click', '.edit-modal', function() {
         $('.modal-title')    .text('Edit');
         $('#id_edit')        .val($(this).data('id'));
-        $('#name_edit')      .val($(this).data('name'));
-        $('#date_start_edit').val($(this).data('date_start'));
-        $('#date_end_edit')  .val($(this).data('date_end'));
+        $('#text_edit')      .val($(this).data('text'));
+        $('#date_edit')      .val($(this).data('date'));
+        $('#type_edit')      .val($(this).data('type'));
         id = $('#id_edit')   .val();
         $('#editModal')      .modal('show');
     });
     $('.modal-footer').on('click', '.edit', function() {
         $.ajax({
             type: 'PUT',
-            url: 'Questionnaires/' + id,
+            url: 'Questions/' + id,
             data: {
-                '_token'                   : $('input[name=_token]').val(),
-                'id'                       : $("#id_edit").val(),
-                'questionnaire_name'       : $('#name_edit').val(),
-                'questionnaire_date_start' : $('#date_start_edit').val(),
-                'questionnaire_date_end'   : $('#date_end_edit').val()
+                '_token'             : $('input[name=_token]').val(),
+                'id'                 : $("#id_edit").val(),
+                'question_text'      : $('#text_edit').val(),
+                'question_date'      : $('#date_edit').val(),
+                'question_type'      : $('#type_edit').val()
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -445,61 +395,33 @@
                 } else {
                     toastr.success('Successfully updated Record!', 'Success Alert', {timeOut: 5000});
                     $('.item' + data.id).replaceWith(
-                    +                            '' + "<tr class='item"
-                    + data.id                       + "'><td class='col1'>"
-                    + data.id                       + "</td><td>"
-                    + data.questionnaire_name       + "</td><td>"
-                    + data.questionnaire_date_start + "</td><td>"
-                    + data.questionnaire_date_end   + "</td><td class='text-center'>"
-                    +                            '' + "<input type='checkbox' class='edit_published' data-id='"
-                    + data.id                       + "'></td><td>Right now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' data-id='"
-                    + data.id                       + "' data-name='"
-                    + data.questionnaire_name       + "' data-date_start='"
-                    + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                            '' + "<a href='{{ route('Questions.show', "
-                    + data.id                       + ") }}''>"
-                    +                            '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
-                    +                            '' + "</td></tr>"
+                    +                       '' + "<tr class='item"
+                    + data.id                  + "'><td class='col1'>"
+                    + data.id                  + "</td><td>"
+                    + data.question_text       + "</td><td>"
+                    + data.question_date       + "</td><td>"
+                    + data.question_type       + "</td><td>"
+                    +                       '' + "<button class='show-modal btn btn-success' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
+                    +                       '' + "<button class='edit-modal btn btn-info' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
+                    +                       '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    + data.id                  + "' data-text='"
+                    + data.question_text       + "' data-date='"
+                    + data.question_date       + "' data-type='"
+                    + data.question_type       + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    +                       '' + "<a href='{{ route('Options.show', "
+                    + data.id                  + ") }}''>"
+                    +                       '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
+                    +                       '' + "</td></tr>"
                     );
 
-                    if (data.is_published) {
-                        $('.edit_published').prop('checked', true);
-                        $('.edit_published').closest('tr').addClass('warning');
-                    }
-                    $('.edit_published').iCheck({
-                        checkboxClass: 'icheckbox_square-yellow',
-                        radioClass: 'iradio_square-yellow',
-                        increaseArea: '20%'
-                    });
-                    $('.edit_published').on('ifToggled', function(event) {
-                        $(this).closest('tr').toggleClass('warning');
-                    });
-                    $('.edit_published').on('ifChanged', function(event){
-                        id = $(this).data('id');
-                        $.ajax({
-                            type: 'POST',
-                            url: "{{ URL::route('changeStatus') }}",
-                            data: {
-                                '_token': $('input[name=_token]').val(),
-                                'id': id
-                            },
-                            success: function(data) {
-                                // empty
-                            },
-                        });
-                    });
                     $('.col1').each(function (index) {
                         $(this).html(index+1);
                     });
@@ -512,16 +434,16 @@
     $(document).on('click', '.delete-modal', function() {
         $('.modal-title')      .text('Delete');
         $('#id_delete')        .val($(this).data('id'));
-        $('#name_delete')      .val($(this).data('name'));
-        $('#date_start_delete').val($(this).data('date_start'));
-        $('#date_end_delete')  .val($(this).data('date_end'));
+        $('#text_delete')      .val($(this).data('text'));
+        $('#date_delete')      .val($(this).data('date'));
+        $('#type_delete')      .val($(this).data('type'));
         $('#deleteModal')      .modal('show');
         id = $('#id_delete')   .val();
     });
     $('.modal-footer').on('click', '.delete', function() {
         $.ajax({
             type: 'DELETE',
-            url: 'Questionnaires/' + id,
+            url: 'Questions/' + id,
             data: {
                 '_token': $('input[name=_token]').val(),
             },

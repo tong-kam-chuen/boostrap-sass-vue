@@ -57,9 +57,9 @@ class QuestionController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $Question = Question::findOrFail($id);
+        $Questions = Question::where('questionaire_id', $id)->get();
 
-        return view('Question.show')->with(['Question' => $Question]);
+        return view('Question.show')->with(['Questions' => $Questions , 'questionaire_id' => $id]);
     }
 
     /**
