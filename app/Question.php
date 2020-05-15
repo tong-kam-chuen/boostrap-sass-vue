@@ -12,7 +12,7 @@ class Question extends Model
       'question_date',
       'question_type',
       'question_select',
-      'questionaire_id'
+      'questionnaire_id'
     ];
 
     /**

@@ -15,9 +15,9 @@ class OptionController extends Controller
      */
     public function index()
     {
-        $Options = Option::all();
+        $Options = Option::where('question_id', request()->question_id)->get();
 
-        return view('Option.index')->with(['Options' => $Options]);
+        return view('Option.index')->with(['Options' => $Options , 'question_id' => request()->question_id]);
     }
 
     /**
@@ -82,7 +82,7 @@ class OptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Option = Question::findOrFail($id);
+        $Option = Option::findOrFail($id);
         $Option->update($request->all());
 
         return response()->json($Option);

@@ -15,9 +15,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $Questions = Question::all();
+        $Questions = Question::where('questionnaire_id', request()->questionnaire_id)->get();
 
-        return view('Question.index')->with(['Questions' => $Questions]);
+        return view('Question.index')->with(['Questions' => $Questions , 'questionnaire_id' => request()->questionnaire_id]);
     }
 
     /**
@@ -42,8 +42,7 @@ class QuestionController extends Controller
         $Question->question_text = $request->question_text;
         $Question->question_date = $request->question_date;
         $Question->question_type = $request->question_type;
-        $Question->question_select = $request->question_select;
-        $Question->questionaire_id = $request->questionaire_id;
+        $Question->questionnaire_id = $request->questionnaire_id;
         $Question->save();
 
         return response()->json($Question);
@@ -57,9 +56,9 @@ class QuestionController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $Questions = Question::where('questionaire_id', $id)->get();
+        $Question = Question::findOrFail($id);
 
-        return view('Question.show')->with(['Questions' => $Questions , 'questionaire_id' => $id]);
+        return view('Question.show')->with(['Question' => $Question]);
     }
 
     /**
@@ -84,8 +83,6 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->session()->flash('success', 'Record updated successfully.');
-        return redirect()->back();
         $Question = Question::findOrFail($id);
         $Question->update($request->all());
 

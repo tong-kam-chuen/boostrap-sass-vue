@@ -19,9 +19,9 @@ class CreateQuestionsTable extends Migration
             $table->date    ('question_date')->nullable();
             $table->enum    ('question_type', array('textarea', 'string', 'option', 'number', 'date', 'time', 'datetime'))->nullable();
             $table->string  ('question_select')->nullable(); // stored selected items from options table
-            $table->unsignedBigInteger('questionaire_id')->nullable();
+            $table->unsignedBigInteger('questionnaire_id')->nullable();
             $table->timestamps();
-            $table->foreign('questionaire_id')->references('id')->on('questionnaires')->onDelete('cascade');
+            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');
         });
     }
 

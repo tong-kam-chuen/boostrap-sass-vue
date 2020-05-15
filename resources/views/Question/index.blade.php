@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul>
-                    <li><i class="fa fa-file-text-o"></i> All the current Records</li>
+                    <li><i class="fa fa-file-text-o"></i> All the current Records from Questionnaire <?php echo $_GET['questionnaire_id']; ?></li>
                     <a href="#" class="add-modal"><li><button class="btn btn-danger">
                     <span class="glyphicon glyphicon-edit"></span> Add a record</button></li></a>
                     <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-info">
@@ -37,14 +37,18 @@
                                     <td>{{$record->question_date}}</td>
                                     <td>{{$record->question_type}}</td>
                                     <td>
-                                        <button class="show-modal btn btn-success" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
+                                      <form action="{{ route('Options.index') }}" method="GET" style="display: block;">
+                                        <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
+                                        <button class="edit-modal btn btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
+                                        <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
                                         <span class="glyphicon glyphicon-trash"></span> Delete</button>
-                                        <a href="{{ route('Questions.show', $record->id) }}"><button class="btn btn-success">
-                                        <span class="glyphicon glyphicon-eye-open"></span> Details</button></a>
+                                        <button class="btn btn-success">
+                                          <span class='glyphicon glyphicon-eye-open'></span> Details
+                                        </button>
+                                        <input type="hidden" class="form-control" name="question_id" value="{{$record->id}}" />
+                                      </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -65,9 +69,9 @@
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="questionaire_id">Parent#:</label>
+                            <label class="control-label col-sm-2" for="parent">Parent#:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="questionaire_id" value="{{ $questionaire_id }}" disabled />
+                                <input type="text" class="form-control" id="id_add" name="questionnaire_id" value="<?php echo $_GET['questionnaire_id'] ?>" readonly />
                             </div>
                         </div>
                         <div class="form-group">
@@ -292,7 +296,7 @@
                 'question_text'      : $('#text_add').val(),
                 'question_date'      : $('#date_add').val(),
                 'question_type'      : $('#type_add').val(),
-                'questionaire_id'    : $('#questionaire_id').val()
+                'questionnaire_id'   : $('#id_add').val(),
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -300,7 +304,7 @@
                 if ((data.errors)) {
                     setTimeout(function () {
                         $('#addModal').modal('show');
-                        toastr.error('Validation error!', 'Error Alert', {timeOut: 5000});
+                        toastr.error('Validation error!', 'Error Alert', {timeOut: 15000});
                     }, 500);
 
                     if (data.errors.name) {
@@ -308,7 +312,7 @@
                         $('.errorName').text(data.errors.name);
                     }
                 } else {
-                    toastr.success('Successfully added record!', 'Success Alert', {timeOut: 5000});
+                    toastr.success('Successfully added record!', 'Success Alert', {timeOut: 15000});
                     $('#recordTable').prepend(
                     +                       '' + "<tr class='item"
                     + data.id                  + "'><td class='col1'>"
@@ -316,27 +320,24 @@
                     + data.question_text       + "</td><td>"
                     + data.question_date       + "</td><td>"
                     + data.question_type       + "</td><td>"
-                    +                       '' + "<button class='show-modal btn btn-success' data-id='"
+                    +                       '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
                     +                       '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                       '' + "<button class='edit-modal btn btn-info' data-id='"
+                    +                       '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
                     +                       '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                       '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    +                       '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
                     +                       '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                       '' + "<a href='{{ route('Options.show', "
-                    + data.id                  + ") }}''>"
-                    +                       '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
                     +                       '' + "</td></tr>"
                     );
 
@@ -377,7 +378,7 @@
                 'id'                 : $("#id_edit").val(),
                 'question_text'      : $('#text_edit').val(),
                 'question_date'      : $('#date_edit').val(),
-                'question_type'      : $('#type_edit').val()
+                'question_type'      : $('#type_edit').val(),
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -385,7 +386,7 @@
                 if ((data.errors)) {
                     setTimeout(function () {
                         $('#editModal').modal('show');
-                        toastr.error('Validation error!', 'Error Alert', {timeOut: 5000});
+                        toastr.error('Validation error!', 'Error Alert', {timeOut: 15000});
                     }, 500);
 
                     if (data.errors.name) {
@@ -393,7 +394,7 @@
                         $('.errorName').text(data.errors.name);
                     }
                 } else {
-                    toastr.success('Successfully updated Record!', 'Success Alert', {timeOut: 5000});
+                    toastr.success('Successfully updated Record!', 'Success Alert', {timeOut: 15000});
                     $('.item' + data.id).replaceWith(
                     +                       '' + "<tr class='item"
                     + data.id                  + "'><td class='col1'>"
@@ -401,24 +402,21 @@
                     + data.question_text       + "</td><td>"
                     + data.question_date       + "</td><td>"
                     + data.question_type       + "</td><td>"
-                    +                       '' + "<button class='show-modal btn btn-success' data-id='"
+                    +                       '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                       '' + "<button class='edit-modal btn btn-info' data-id='"
+                    +                       '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                       '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    +                       '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                       '' + "<a href='{{ route('Options.show', "
-                    + data.id                  + ") }}''>"
-                    +                       '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
                     +                       '' + "</td></tr>"
                     );
 
@@ -448,7 +446,7 @@
                 '_token': $('input[name=_token]').val(),
             },
             success: function(data) {
-                toastr.success('Successfully deleted Record!', 'Success Alert', {timeOut: 5000});
+                toastr.success('Successfully deleted Record!', 'Success Alert', {timeOut: 15000});
                 $('.item' + data['id']).remove();
                 $('.col1').each(function (index) {
                     $(this).html(index+1);

@@ -43,14 +43,18 @@
                                     </td>
                                     <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $record->updated_at)->diffForHumans() }}</td>
                                     <td>
-                                        <button class="show-modal btn btn-success" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                      <form action="{{ route('Questions.index') }}" method="GET" style="display: block;">
+                                        <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
                                         <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                        <button class="edit-modal btn btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
                                         <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                        <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
                                         <span class="glyphicon glyphicon-trash"></span> Delete</button>
-                                        <a href="{{ route('Questions.show', $record->id) }}"><button class="btn btn-success">
-                                        <span class="glyphicon glyphicon-eye-open"></span> Details</button></a>
+                                        <button class="btn btn-success" type="submit">
+                                          <span class='glyphicon glyphicon-eye-open'></span> Details
+                                        </button>
+                                        <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
+                                      </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -140,7 +144,7 @@
                         </div>
                     </form>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <button type="button" class="btn btn-warning" onclick="event.preventDefault();" data-dismiss="modal">
                             <span class='glyphicon glyphicon-remove'></span> Close
                         </button>
                     </div>
@@ -318,7 +322,7 @@
                 '_token'                   : $('input[name=_token]').val(),
                 'questionnaire_name'       : $('#name_add').val(),
                 'questionnaire_date_start' : $('#date_start_add').val(),
-                'questionnaire_date_end'   : $('#date_end_add').val()
+                'questionnaire_date_end'   : $('#date_end_add').val(),
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -326,7 +330,7 @@
                 if ((data.errors)) {
                     setTimeout(function () {
                         $('#addModal').modal('show');
-                        toastr.error('Validation error!', 'Error Alert', {timeOut: 5000});
+                        toastr.error('Validation error!', 'Error Alert', {timeOut: 15000});
                     }, 500);
 
                     if (data.errors.name) {
@@ -334,7 +338,7 @@
                         $('.errorName').text(data.errors.name);
                     }
                 } else {
-                    toastr.success('Successfully added record!', 'Success Alert', {timeOut: 5000});
+                    toastr.success('Successfully added record!', 'Success Alert', {timeOut: 15000});
                     $('#recordTable').prepend(
                     +                            '' + "<tr class='item"
                     + data.id                       + "'><td class='col1'>"
@@ -344,27 +348,24 @@
                     + data.questionnaire_date_end   + "</td><td class='text-center'>"
                     +                            '' + "<input type='checkbox' class='new_published' data-id='"
                     + data.id                       + "'></td><td>Just now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' data-id='"
+                    +                            '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
                     +                            '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' data-id='"
+                    +                            '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
                     +                            '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    +                            '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
                     +                            '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                            '' + "<a href='{{ route('Questions.show', "
-                    + data.id                       + ") }}''>"
-                    +                            '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
                     +                            '' + "</td></tr>"
                     );
 
@@ -427,7 +428,7 @@
                 'id'                       : $("#id_edit").val(),
                 'questionnaire_name'       : $('#name_edit').val(),
                 'questionnaire_date_start' : $('#date_start_edit').val(),
-                'questionnaire_date_end'   : $('#date_end_edit').val()
+                'questionnaire_date_end'   : $('#date_end_edit').val(),
             },
             success: function(data) {
                 $('.errorName').addClass('hidden');
@@ -435,7 +436,7 @@
                 if ((data.errors)) {
                     setTimeout(function () {
                         $('#editModal').modal('show');
-                        toastr.error('Validation error!', 'Error Alert', {timeOut: 5000});
+                        toastr.error('Validation error!', 'Error Alert', {timeOut: 15000});
                     }, 500);
 
                     if (data.errors.name) {
@@ -443,7 +444,7 @@
                         $('.errorName').text(data.errors.name);
                     }
                 } else {
-                    toastr.success('Successfully updated Record!', 'Success Alert', {timeOut: 5000});
+                    toastr.success('Successfully updated Record!', 'Success Alert', {timeOut: 15000});
                     $('.item' + data.id).replaceWith(
                     +                            '' + "<tr class='item"
                     + data.id                       + "'><td class='col1'>"
@@ -453,24 +454,21 @@
                     + data.questionnaire_date_end   + "</td><td class='text-center'>"
                     +                            '' + "<input type='checkbox' class='edit_published' data-id='"
                     + data.id                       + "'></td><td>Right now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' data-id='"
+                    +                            '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' data-id='"
+                    +                            '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' data-id='"
+                    +                            '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
-                    +                            '' + "<a href='{{ route('Questions.show', "
-                    + data.id                       + ") }}''>"
-                    +                            '' + "<button class='btn btn-success'><span class='glyphicon glyphicon-eye-open'></span> Details</button></a>"
                     +                            '' + "</td></tr>"
                     );
 
@@ -526,7 +524,7 @@
                 '_token': $('input[name=_token]').val(),
             },
             success: function(data) {
-                toastr.success('Successfully deleted Record!', 'Success Alert', {timeOut: 5000});
+                toastr.success('Successfully deleted Record!', 'Success Alert', {timeOut: 15000});
                 $('.item' + data['id']).remove();
                 $('.col1').each(function (index) {
                     $(this).html(index+1);

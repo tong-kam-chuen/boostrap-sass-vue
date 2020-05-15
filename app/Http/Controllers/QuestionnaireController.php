@@ -15,7 +15,7 @@ class QuestionnaireController extends Controller
     */
     public function index()
     {
-        $Questionnaires = Questionnaire::orderBy('id', 'desc')->get();
+        $Questionnaires = Questionnaire::all();
 
         return view('Questionnaire.index')->with(['Questionnaires' => $Questionnaires]);
     }
