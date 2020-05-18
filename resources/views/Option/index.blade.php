@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul>
-                    <li><i class="fa fa-file-text-o"></i> All the current Records from Option <?php echo $_GET['question_id']; ?></li>
+                    <li><i class="fa fa-file-text-o"></i> All the current Records from Question <?php echo $_GET['question_id']; ?></li>
                     <a href="#" class="add-modal"><li><button class="btn btn-danger">
                     <span class="glyphicon glyphicon-edit"></span> Add a record</button></li></a>
                     <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-info">

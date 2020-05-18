@@ -5,10 +5,10 @@
         <div class="card">
           <!-- /.card-header -->
           <div class="card-header">
-            <h3 class="card-title">Users Table</h3>
-
+            <span class="card-title"></span>
+              Users Table
             <div class="card-tools">
-              <div class="input-group input-group-sm" style="width: 150px;">
+              <div class="input-group input-group-sm" style="width: 290px;">
                 <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
                 <div class="input-group-append">

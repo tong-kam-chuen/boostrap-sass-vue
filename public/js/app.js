@@ -60778,14 +60778,14 @@ var render = function() {
     _c("div", { staticClass: "col-lg-12" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h3", { staticClass: "card-title" }, [_vm._v("Users Table")]),
-          _vm._v(" "),
+          _c("span", { staticClass: "card-title" }),
+          _vm._v("\n          Users Table\n        "),
           _c("div", { staticClass: "card-tools" }, [
             _c(
               "div",
               {
                 staticClass: "input-group input-group-sm",
-                staticStyle: { width: "150px" }
+                staticStyle: { width: "290px" }
               },
               [
                 _c("input", {
