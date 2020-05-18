@@ -11,9 +11,9 @@
                 <ul>
                     <li><i class="fa fa-file-text-o"></i> All the current Records</li>
                     <a href="#" class="add-modal"><li><button class="btn btn-danger">
-                    <span class="glyphicon glyphicon-edit"></span> Add a record</button></li></a>
+                    <span class="glyphicon glyphicon-pencil"></span> Add a record</button></li></a>
                     <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-info">
-                    <span class="glyphicon glyphicon-eye-open"></span> Back</button></li></a>
+                    <span class="glyphicon glyphicon-log-out"></span> Back</button></li></a>
                 </ul>
             </div>
 
@@ -51,7 +51,7 @@
                                         <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
                                         <span class="glyphicon glyphicon-trash"></span> Delete</button>
                                         <button class="btn btn-success" type="submit">
-                                          <span class='glyphicon glyphicon-eye-open'></span> Details
+                                          <span class='glyphicon glyphicon-th-list'></span> Details
                                         </button>
                                         <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
                                       </form>
