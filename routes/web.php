@@ -25,3 +25,5 @@ Route::resource('Options','OptionController');
 Route::resource('Questions','QuestionController');
 Route::resource('Questionnaires','QuestionnaireController');
 Route::post('Questionnaires/changeStatus', array('as' => 'changeStatus', 'uses' => 'QuestionnaireController@changeStatus'));
+
+Route::get('{path}', "HomeController@index")->where('path', '([A-z\d/-\/_.]+)?');

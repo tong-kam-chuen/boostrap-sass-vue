@@ -1,17 +1,17 @@
 <template>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">Profile Component</div>
-
-            <div class="card-body">
-              I'm an example component.
-            </div>
-          </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <!-- /.card-header -->
+        <div class="card-header">
+          Profile Component
+        </div>
+        <div class="card-body">
+          I'm an example Profile component.
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

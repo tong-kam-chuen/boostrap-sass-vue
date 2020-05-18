@@ -1,22 +1,25 @@
 <template>
-    <div class="container">
-      <div class="col-12">
+    <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-lg-12">
         <div class="card">
           <!-- /.card-header -->
           <div class="card-header">
             <h3 class="card-title">Users Table</h3>
 
             <div class="card-tools">
-              <!-- <div class="input-group input-group-sm" style="width: 150px;">
+              <div class="input-group input-group-sm" style="width: 150px;">
                 <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                 </div>
-              </div> -->
-              <!-- data-toggle="modal" data-target="#addNew" -->
-              <button class="btn btn-success" @click="newModal"
-              >Add New <i class="fas fa-user-plus fa-fw yellow"></i></button>
+                <div class="input-group-append">
+                  <button class="btn btn-success" @click="newModal" >
+                    Add New <i class="fas fa-user-plus fa-fw yellow"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <!-- /.card-body -->
