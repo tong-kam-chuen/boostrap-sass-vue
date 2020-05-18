@@ -46,6 +46,7 @@ window.Fire = new Vue();
 
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default },
+  { path: '/developer', component: require('./components/Developer.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default },
   { path: '/users', component: require('./components/Users.vue').default }
 ];
@@ -66,6 +67,10 @@ Vue.component(AlertError.name, AlertError)
 Vue.component('dashboard', require('./components/Dashboard.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
+
+Vue.component('passport-clients', require('./components/passport/Clients.vue').default);
+Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue').default);
+Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
