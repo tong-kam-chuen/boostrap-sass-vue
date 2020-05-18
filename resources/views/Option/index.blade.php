@@ -10,9 +10,9 @@
             <div class="panel-heading">
                 <ul>
                     <li><i class="fa fa-file-text-o"></i> All the current Records from Question <?php echo $_GET['question_id']; ?></li>
-                    <a href="#" class="add-modal"><li><button class="btn btn-danger">
+                    <a href="#" class="add-modal"><li><button class="btn btn-sm btn-danger">
                     <span class="glyphicon glyphicon-pencil"></span> Add a record</button></li></a>
-                    <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-info">
+                    <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-sm btn-info">
                     <span class="glyphicon glyphicon-log-out"></span> Back</button></li></a>
                 </ul>
             </div>
