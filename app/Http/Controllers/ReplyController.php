@@ -18,6 +18,8 @@ class ReplyController extends Controller
      */
     public function index()
     {
+        $user_id = isset(Auth::user()->id)? Auth::user()->id : null;
+
         $Questionnaire = null;
         $Questions = null;
         $Options = array();
@@ -29,17 +31,23 @@ class ReplyController extends Controller
             $question_id = isset($Question->id) ? $Question->id : null;
             $question_type = isset($Question->question_type) ? $Question->question_type : null;
             if ($question_type == 'option') {
-              $Option = null;
-              $Option = Option::where('question_id', '=', $question_id)->get();
-              $Option_text = null;
-              $Option_text = isset($Option->option_text) ? $Option->option_text : null;
-              array_push($Options[$question_id], $Option_text);
+              $Options_all = null;
+              $Options_all = Option::where('question_id', '=', $question_id)->get();
+              foreach ($Options_all as $Option) {
+                $Option_text = null;
+                $Option_text = isset($Option->option_text) ? $Option->option_text : null;
+                $record_text = null;
+                $record_text = array('question_id' => $question_id, 'option_text' => $Option_text);
+                array_push($Options, $record_text);
+              }
             }
             $Reply = null;
-            $Reply = Reply::where('question_id', '=', $question_id)->get();
-            $Reply_text = null;
-            $Reply_text = isset($Reply->reply_text) ? $Reply->reply_text : null;
-            array_push($Replies[$question_id], $Reply_text);
+            $Reply = Reply::where('question_id', '=', $question_id)->where('user_id', '=', $user_id)->first();
+            $Reply_text  = null;
+            $Reply_text  = isset($Reply->reply_text) ? $Reply->reply_text : null;
+            $record_text = null;
+            $record_text = array('question_id' => $question_id, 'reply_text' => $Reply_text);
+            array_push($Replies, $record_text);
           }
         }
 

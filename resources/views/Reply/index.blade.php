@@ -9,10 +9,19 @@
         </h3>
         <br />
         <?php
-          $types = ['textarea','string','option','number','date','time','datetime']
+          $types = ['textarea','string','option','number','date','time','datetime'];
          ?>
 
         @foreach($Questions as $record)
+
+        <?php
+          $reply_text = null;
+          foreach ($Replies as $rec) {
+            if ($rec['question_id'] == $record->id) {
+              $reply_text = isset($rec['reply_text']) ? $rec['reply_text'] : null;
+            }
+          }
+         ?>
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -29,7 +38,7 @@
                    ?>
                    <textarea cols=120 rows=5 name="reply_text" class="form-control">
                      <?php
-                      echo ($Replies[$record->id]) ? nl2br($Replies[$record->id]) : null;
+                      echo ($reply_text) ? htmlspecialchars($reply_text) : null;
                       ?>
                    </textarea>
                   <?php
@@ -39,23 +48,23 @@
                       case 'string':
                    ?>
                    <input name="reply_text" type="text" class="form-control" value="<?php
-                    echo ($Replies[$record->id]) ? print_r($Replies[$record->id]) : null;
+                    echo ($reply_text) ? $reply_text : null;
                     ?>" />
                   <?php
                       break;
                    ?>
                   <?php
                       case 'option':
-                      $selected = ($Replies[$record->id]) ? trim($Replies[$record->id]) : null;
-                      $selects = (count($Options[$question_id]) > 0) ? $Options[$question_id] : array();
                    ?>
-                   <select name="reply_text">
+                   <select name="reply_text" class="form-control">
                      <option></option>
                      <?php
-                      foreach ($selects as $sel) {
+                      foreach ($Options as $key) {
+                        if ($key['question_id'] == $record->id) {
                       ?>
-                      <option value="<?php echo $sel; ?>" <?php if ($selected == $sel) echo 'selected'; ?> > <?php echo $sel; ?></option>
+                      <option value="<?php echo $key['option_text']; ?>" <?php if ($reply_text == $key['option_text']) echo 'selected'; ?> > <?php echo $key['option_text']; ?></option>
                      <?php
+                        }
                       }
                       ?>
                    </select>
@@ -66,7 +75,7 @@
                       case 'number':
                    ?>
                    <input name="reply_text" type="number" class="form-control" value="<?php
-                    echo ($Replies[$record->id]) ? trim($Replies[$record->id]) : null;
+                    echo ($reply_text) ? trim($reply_text) : null;
                     ?>" />
                   <?php
                       break;
@@ -75,7 +84,7 @@
                       case 'date':
                    ?>
                    <input name="reply_text" type="date" class="form-control" value="<?php
-                    echo ($Replies[$record->id]) ? date('Y-m-d', strtotime($Replies[$record->id])) : null;
+                    echo ($reply_text) ? date('Y-m-d', strtotime($reply_text)) : null;
                     ?>" />
                   <?php
                       break;
@@ -84,7 +93,7 @@
                       case 'time':
                    ?>
                    <input name="reply_text" type="time" class="form-control" value="<?php
-                    echo ($Replies[$record->id]) ? date('H:i:s', strtotime($Replies[$record->id])) : null;
+                    echo ($reply_text) ? date('H:i:s', strtotime($reply_text)) : null;
                     ?>" />
                   <?php
                       break;
@@ -93,7 +102,7 @@
                       case 'datetime':
                    ?>
                    <input name="reply_text" type="datetime" class="form-control" value="<?php
-                    echo ($Replies[$record->id]) ? date('Y-m-d H:i:s', strtotime($Replies[$record->id])) : null;
+                    echo ($reply_text) ? date('Y-m-d H:i:s', strtotime($reply_text)) : null;
                     ?>" />
                   <?php
                       break;
@@ -117,6 +126,7 @@
                 </form>
             </div><!-- /.panel-body -->
         </div><!-- /.panel panel-default -->
+
         @endforeach
 
     </div><!-- /.col-md-12 -->
