@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
-    protected $table = 'Options';
+    protected $table = 'options';
     protected $fillable = [
       'option_text',
       'option_date',

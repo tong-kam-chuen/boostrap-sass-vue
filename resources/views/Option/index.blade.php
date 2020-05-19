@@ -30,10 +30,10 @@
                         </thead>
                         <tbody>
                             @foreach($Options as $indexKey => $record)
-                                <tr class="item{{$record->id}}">
-                                    <td class="col1">{{ $record->id }}</td>
-                                    <td>{{$record->option_text}}</td>
-                                    <td>{{$record->option_date}}</td>
+                                <tr class="item{{ $record->id }}">
+                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td>{{ $record->option_text }}</td>
+                                    <td>{{ $record->option_date }}</td>
                                     <td>
                                         <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->option_text}}" data-date="{{$record->option_date}}">
                                         <span class="glyphicon glyphicon-eye-open"></span> Show</button>

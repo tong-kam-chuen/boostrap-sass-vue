@@ -31,11 +31,11 @@
                         </thead>
                         <tbody>
                             @foreach($Questions as $indexKey => $record)
-                                <tr class="item{{$record->id}}">
-                                    <td class="col1">{{ $record->id }}</td>
-                                    <td>{{$record->question_text}}</td>
-                                    <td>{{$record->question_date}}</td>
-                                    <td>{{$record->question_type}}</td>
+                                <tr class="item{{ $record->id }}">
+                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td>{{ $record->question_text }}</td>
+                                    <td>{{ $record->question_date }}</td>
+                                    <td>{{ $record->question_type }}</td>
                                     <td>
                                       <form action="{{ route('Options.index') }}" method="GET" style="display: block;">
                                         <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">

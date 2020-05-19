@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $table = 'Questions';
+    protected $table = 'questions';
     protected $fillable = [
       'question_text',
       'question_date',
       'question_type',
-      'question_select',
       'questionnaire_id'
     ];
 

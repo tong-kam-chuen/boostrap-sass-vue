@@ -4652,6 +4652,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4702,12 +4703,12 @@ __webpack_require__.r(__webpack_exports__);
     newModal: function newModal() {
       this.editmode = false;
       this.form.reset();
-      $('#addNew').modal('show');
+      $('#input').modal('show');
     },
     editModal: function editModal(user) {
       this.editmode = true;
       this.form.reset();
-      $('#addNew').modal('show');
+      $('#input').modal('show');
       this.form.fill(user);
     },
     updateUser: function updateUser() {
@@ -4716,7 +4717,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.put('api/user/' + this.form.id).then(function () {
         Fire.$emit('AfterUpdate');
-        $('#addNew').modal('hide');
+        $('#input').modal('hide');
         Swal.fire('Updated!', 'Information has been updated.', 'success');
 
         _this3.$Progress.finish();
@@ -4730,7 +4731,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.post('api/user');
       Fire.$emit('AfterCreate');
-      $('#addNew').modal('hide');
+      $('#input').modal('hide');
       Toast.fire({
         icon: 'success',
         title: 'User Created Successfully'
@@ -62341,6 +62342,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-lg-12" }, [_c("passport-clients")], 1),
+    _vm._v(" "),
     _c(
       "div",
       { staticClass: "col-lg-12" },
@@ -62348,11 +62351,9 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "col-lg-6" }, [_c("passport-clients")], 1),
-    _vm._v(" "),
     _c(
       "div",
-      { staticClass: "col-lg-6" },
+      { staticClass: "col-lg-12" },
       [_c("passport-personal-access-tokens")],
       1
     )
@@ -62547,10 +62548,10 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "addNew",
+          id: "input",
           tabindex: "-1",
           role: "dialog",
-          "aria-labelledby": "addNewLable",
+          "aria-labelledby": "inputLable",
           "aria-hidden": "true"
         }
       },
@@ -62576,7 +62577,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "modal-title",
-                    attrs: { id: "addNewLabel" }
+                    attrs: { id: "inputLabel" }
                   },
                   [_vm._v("Add New")]
                 ),
@@ -62593,7 +62594,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "modal-title",
-                    attrs: { id: "addNewLabel" }
+                    attrs: { id: "inputLabel" }
                   },
                   [_vm._v("Update User's Info")]
                 ),
@@ -80021,8 +80022,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\Laravel\questionnaire\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\Laravel\questionnaire\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\root\Laravel\questionnaire\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\root\Laravel\questionnaire\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

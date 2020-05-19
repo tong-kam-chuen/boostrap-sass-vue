@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Questionnaire extends Model
 {
-    protected $table = 'Questionnaires';
+    protected $table = 'questionnaires';
     protected $fillable = [
       'questionnaire_name',
       'questionnaire_date_start',

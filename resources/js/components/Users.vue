@@ -66,15 +66,15 @@
         <!-- /.card -->
       </div>
 
-      <!-- Modal -->
+      <!-- input Modal -->
 
-      <div class="modal fade" id="addNew" tabindex="-1" role="dialog"
-        aria-labelledby="addNewLable" aria-hidden="true">
+      <div class="modal fade" id="input" tabindex="-1" role="dialog"
+        aria-labelledby="inputLable" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New</h5>
-              <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update User's Info</h5>
+              <h5 class="modal-title" v-show="!editmode" id="inputLabel">Add New</h5>
+              <h5 class="modal-title" v-show="editmode" id="inputLabel">Update User's Info</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -134,6 +134,7 @@
           </div>
         </div>
       </div>
+      <!-- input Modal -->
 
     </div>
 </template>
@@ -190,12 +191,12 @@
           newModal () {
               this.editmode = false;
               this.form.reset();
-              $('#addNew').modal('show');
+              $('#input').modal('show');
           },
           editModal (user) {
               this.editmode = true;
               this.form.reset();
-              $('#addNew').modal('show');
+              $('#input').modal('show');
               this.form.fill(user);
           },
           updateUser () {
@@ -203,7 +204,7 @@
               this.form.put('api/user/'+this.form.id)
                   .then(() => {
                       Fire.$emit('AfterUpdate');
-                      $('#addNew').modal('hide');
+                      $('#input').modal('hide');
 
                       Swal.fire(
                         'Updated!',
@@ -225,7 +226,7 @@
               this.$Progress.start();
               this.form.post('api/user')
               Fire.$emit('AfterCreate');
-              $('#addNew').modal('hide');
+              $('#input').modal('hide');
 
               Toast.fire({
                 icon: 'success',

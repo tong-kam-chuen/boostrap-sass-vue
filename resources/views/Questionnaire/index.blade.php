@@ -34,10 +34,10 @@
                         <tbody>
                             @foreach($Questionnaires as $indexKey => $record)
                                 <tr class="item{{$record->id}} @if($record->is_published) warning @endif">
-                                    <td class="col1">{{ $record->id }}</td>
-                                    <td>{{$record->questionnaire_name}}</td>
-                                    <td>{{$record->questionnaire_date_start}}</td>
-                                    <td>{{$record->questionnaire_date_end}}</td>
+                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td>{{ $record->questionnaire_name }}</td>
+                                    <td>{{ $record->questionnaire_date_start }}</td>
+                                    <td>{{ $record->questionnaire_date_end }}</td>
                                     <td class="text-center">
                                       <input type="checkbox" class="published" id="" data-id="{{$record->id}}" @if ($record->is_published) checked @endif >
                                     </td>
@@ -52,6 +52,12 @@
                                         <span class="glyphicon glyphicon-trash"></span> Delete</button>
                                         <button class="btn btn-success" type="submit">
                                           <span class='glyphicon glyphicon-th-list'></span> Details
+                                        </button>
+                                        <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
+                                      </form>
+                                      <form action="{{ route('Replies.index') }}" method="GET" style="display: block;">
+                                        <button class="btn btn-success" type="submit">
+                                          <span class='glyphicon glyphicon-th'></span> Reply
                                         </button>
                                         <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
                                       </form>

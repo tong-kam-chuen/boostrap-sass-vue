@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('Replies','ReplyController');
 Route::resource('Options','OptionController');
 Route::resource('Questions','QuestionController');
 Route::resource('Questionnaires','QuestionnaireController');
