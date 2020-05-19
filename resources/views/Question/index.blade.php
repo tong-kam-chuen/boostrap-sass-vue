@@ -91,8 +91,21 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="type">Type:</label>
+                            <?php
+                              $types = ['textarea','string','option','number','date','time','datetime'];
+                             ?>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="type_add" />
+                                <!-- <input type="text" class="form-control" id="type_add" /> -->
+                                <select name="question_type" class="form-control" id="type_add">
+                                  <option></option>
+                                  <?php
+                                   foreach ($types as $key) {
+                                   ?>
+                                   <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
+                                  <?php
+                                   }
+                                   ?>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -185,8 +198,21 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="type">Type:</label>
+                            <?php
+                              $types = ['textarea','string','option','number','date','time','datetime'];
+                             ?>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="type_edit" />
+                                <input type="hidden" class="form-control" id="selected" />
+                                <select name="question_type" class="form-control" id="type_edit">
+                                  <option></option>
+                                  <?php
+                                   foreach ($types as $key) {
+                                   ?>
+                                   <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
+                                  <?php
+                                   }
+                                   ?>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -362,13 +388,15 @@
 
     // Edit a record
     $(document).on('click', '.edit-modal', function() {
-        $('.modal-title')    .text('Edit');
-        $('#id_edit')        .val($(this).data('id'));
-        $('#text_edit')      .val($(this).data('text'));
-        $('#date_edit')      .val($(this).data('date'));
-        $('#type_edit')      .val($(this).data('type'));
-        id = $('#id_edit')   .val();
-        $('#editModal')      .modal('show');
+        $('.modal-title')      .text('Edit');
+        $('#id_edit')          .val($(this).data('id'));
+        $('#text_edit')        .val($(this).data('text'));
+        $('#date_edit')        .val($(this).data('date'));
+        $('#selected')         .val($(this).data('type'));
+        option = $('#selected').val();
+        $("#type_edit")        .val(option).change();
+        id = $('#id_edit')     .val();
+        $('#editModal')        .modal('show');
     });
     $('.modal-footer').on('click', '.edit', function() {
         $.ajax({
