@@ -32,7 +32,7 @@
                         <tbody>
                             @foreach($Questions as $indexKey => $record)
                                 <tr class="item{{ $record->id }}">
-                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td class="col1">{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->question_text }}</td>
                                     <td>{{ $record->question_date }}</td>
                                     <td>{{ $record->question_type }}</td>

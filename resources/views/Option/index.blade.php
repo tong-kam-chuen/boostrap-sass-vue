@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach($Options as $indexKey => $record)
                                 <tr class="item{{ $record->id }}">
-                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td class="col1">{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->option_text }}</td>
                                     <td>{{ $record->option_date }}</td>
                                     <td>

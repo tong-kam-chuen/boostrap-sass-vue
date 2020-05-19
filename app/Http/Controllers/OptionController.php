@@ -15,7 +15,9 @@ class OptionController extends Controller
      */
     public function index()
     {
-        $Options = Option::where('question_id', request()->question_id)->get();
+        $Options = Option::where('question_id', request()->question_id)
+                         ->orderBy('id', 'DESC')
+                         ->get();
 
         return view('Option.index')->with(['Options' => $Options , 'question_id' => request()->question_id]);
     }

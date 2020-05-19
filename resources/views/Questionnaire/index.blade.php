@@ -34,7 +34,7 @@
                         <tbody>
                             @foreach($Questionnaires as $indexKey => $record)
                                 <tr class="item{{$record->id}} @if($record->is_published) warning @endif">
-                                    <td class="col1">{{ $indexKey }}</td>
+                                    <td class="col1">{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->questionnaire_name }}</td>
                                     <td>{{ $record->questionnaire_date_start }}</td>
                                     <td>{{ $record->questionnaire_date_end }}</td>

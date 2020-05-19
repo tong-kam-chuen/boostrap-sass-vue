@@ -15,7 +15,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $Questions = Question::where('questionnaire_id', request()->questionnaire_id)->get();
+        $Questions = Question::where('questionnaire_id', request()->questionnaire_id)
+                             ->orderBy('id', 'DESC')
+                             ->get();
 
         return view('Question.index')->with(['Questions' => $Questions , 'questionnaire_id' => request()->questionnaire_id]);
     }
