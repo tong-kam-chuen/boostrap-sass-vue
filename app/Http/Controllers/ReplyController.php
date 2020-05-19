@@ -29,9 +29,17 @@ class ReplyController extends Controller
             $question_id = isset($Question->id) ? $Question->id : null;
             $question_type = isset($Question->question_type) ? $Question->question_type : null;
             if ($question_type == 'option') {
-              $Options[$question_id] = Option::where('question_id', '=', $question_id)->get();
+              $Option = null;
+              $Option = Option::where('question_id', '=', $question_id)->get();
+              $Option_text = null;
+              $Option_text = isset($Option->option_text) ? $Option->option_text : null;
+              array_push($Options[$question_id], $Option_text);
             }
-            $Replies[$question_id] = Reply::where('question_id', '=', $question_id)->get();
+            $Reply = null;
+            $Reply = Reply::where('question_id', '=', $question_id)->get();
+            $Reply_text = null;
+            $Reply_text = isset($Reply->reply_text) ? $Reply->reply_text : null;
+            array_push($Replies[$question_id], $Reply_text);
           }
         }
 
