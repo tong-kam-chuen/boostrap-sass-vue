@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th valign="middle">#</th>
-                                <th>Text</th>
+                                <th>Option_Text</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -31,16 +31,16 @@
                         <tbody>
                             @foreach($Options as $indexKey => $record)
                                 <tr class="item{{ $record->id }}">
-                                    <td class="col1">{{ $indexKey + 1 }}</td>
+                                    <td class="col1" width=60>{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->option_text }}</td>
-                                    <td>{{ $record->option_date }}</td>
-                                    <td>
-                                        <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->option_text}}" data-date="{{$record->option_date}}">
-                                        <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->option_text}}" data-date="{{$record->option_date}}">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->option_text}}" data-date="{{$record->option_date}}">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                    <td width=100>{{ $record->option_date }}</td>
+                                    <td width=140>
+                                        <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->option_text }}" data-date="{{ $record->option_date }}">
+                                        <span class="glyphicon glyphicon-eye-open"></span></button>
+                                        <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->option_text }}" data-date="{{ $record->option_date }}">
+                                        <span class="glyphicon glyphicon-edit"></span></button>
+                                        <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->option_text }}" data-date="{{ $record->option_date }}">
+                                        <span class="glyphicon glyphicon-trash"></span></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -285,21 +285,21 @@
                     + data.id                + "</td><td>"
                     + data.option_text       + "</td><td>"
                     + data.option_date       + "</td><td>"
-                    +                     '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'>"
-                    +                     '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                     '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<span class='glyphicon glyphicon-eye-open'></span></button> "
+                    +                     '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'>"
-                    +                     '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                     '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<span class='glyphicon glyphicon-edit'></span></button> "
+                    +                     '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'>"
-                    +                     '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    +                     '' + "<span class='glyphicon glyphicon-trash'></span></button> "
                     +                     '' + "</td></tr>"
                     );
 
@@ -360,15 +360,15 @@
                     + data.id                + "</td><td>"
                     + data.option_text       + "</td><td>"
                     + data.option_date       + "</td><td>"
-                    +                     '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                     '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                     '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    +                     '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
                     + data.option_date       + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "

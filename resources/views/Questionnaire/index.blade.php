@@ -29,11 +29,11 @@
                             <tr>
                                 <th valign="middle">#</th>
                                 <th>Name</th>
-                                <th>Date_start</th>
-                                <th>Date_end</th>
+                                <th>Date_Start</th>
+                                <th>Date_End</th>
                                 <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' ) { ?>
                                   <th>Published?</th>
-                                  <th>Last_updated</th>
+                                  <th>Last_Updated</th>
                                 <?php } ?>
                                 <th>Actions</th>
                             </tr>
@@ -42,7 +42,7 @@
                         <tbody>
                             @foreach($Questionnaires as $indexKey => $record)
                                 <tr class="item{{$record->id}} @if($record->is_published) warning @endif">
-                                    <td class="col1">{{ $indexKey + 1 }}</td>
+                                    <td class="col1" width=60>{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->questionnaire_name }}</td>
                                     <td width=100>{{ $record->questionnaire_date_start }}</td>
                                     <td width=100>{{ $record->questionnaire_date_end }}</td>

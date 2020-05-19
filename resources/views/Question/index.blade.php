@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th valign="middle">#</th>
-                                <th>Text</th>
+                                <th>Question_Text</th>
                                 <th>Date</th>
                                 <th>Type</th>
                                 <th>Actions</th>
@@ -32,22 +32,23 @@
                         <tbody>
                             @foreach($Questions as $indexKey => $record)
                                 <tr class="item{{ $record->id }}">
-                                    <td class="col1">{{ $indexKey + 1 }}</td>
+                                    <td class="col1" width=60>{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->question_text }}</td>
-                                    <td>{{ $record->question_date }}</td>
+                                    <td width=100>{{ $record->question_date }}</td>
                                     <td>{{ $record->question_type }}</td>
-                                    <td>
+                                    <td width=180>
                                       <form action="{{ route('Options.index') }}" method="GET" style="display: block;">
-                                        <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
-                                        <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-text="{{$record->question_text}}" data-date="{{$record->question_date}}" data-type="{{$record->question_type}}">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete</button>
-                                        <button class="btn btn-success">
-                                          <span class='glyphicon glyphicon-th-list'></span> Details
-                                        </button>
-                                        <input type="hidden" class="form-control" name="question_id" value="{{$record->id}}" />
+                                        <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                        <span class="glyphicon glyphicon-eye-open"></span></button>
+                                        <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                        <span class="glyphicon glyphicon-edit"></span></button>
+                                        <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                        <span class="glyphicon glyphicon-trash"></span></button>
+                                        <?php if ($record->question_type == 'option') { ?>
+                                        <button class="btn btn-sm btn-success">
+                                        <span class='glyphicon glyphicon-th-list'></span></button>
+                                        <input type="hidden" class="form-control" name="question_id" value="{{ $record->id }}" />
+                                        <?php } ?>
                                       </form>
                                     </td>
                                 </tr>
@@ -320,24 +321,24 @@
                     + data.question_text       + "</td><td>"
                     + data.question_date       + "</td><td>"
                     + data.question_type       + "</td><td>"
-                    +                       '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                       '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
-                    +                       '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                       '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    +                       '' + "<span class='glyphicon glyphicon-eye-open'></span></button> "
+                    +                       '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
-                    +                       '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                       '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    +                       '' + "<span class='glyphicon glyphicon-edit'></span></button> "
+                    +                       '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
                     + data.question_type       + "'>"
-                    +                       '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    +                       '' + "<span class='glyphicon glyphicon-trash'></span></button> "
                     +                       '' + "</td></tr>"
                     );
 
@@ -402,21 +403,21 @@
                     + data.question_text       + "</td><td>"
                     + data.question_date       + "</td><td>"
                     + data.question_type       + "</td><td>"
-                    +                       '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                       '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
-                    + data.question_type       + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                       '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    + data.question_type       + "'><span class='glyphicon glyphicon-eye-open'></span></button> "
+                    +                       '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
-                    + data.question_type       + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                       '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    + data.question_type       + "'><span class='glyphicon glyphicon-edit'></span></button> "
+                    +                       '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                  + "' data-text='"
                     + data.question_text       + "' data-date='"
                     + data.question_date       + "' data-type='"
-                    + data.question_type       + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    + data.question_type       + "'><span class='glyphicon glyphicon-trash'></span></button> "
                     +                       '' + "</td></tr>"
                     );
 
