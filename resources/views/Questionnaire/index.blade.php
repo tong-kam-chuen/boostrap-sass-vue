@@ -4,14 +4,20 @@
     <div class="row justify-content-center mb-3">
 
     <div class="col-md-12 col-md-offset-0">
+      <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' ) { ?>
         <h3 class="text-center">Manage Questionnaires</h3>
+      <?php } else { ?>
+        <h3 class="text-center">View Questionnaires</h3>
+      <?php } ?>
         <br />
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul>
                     <li><i class="fa fa-file-text-o"></i> All the current Records</li>
-                    <a href="#" class="add-modal"><li><button class="btn btn-sm btn-danger">
-                    <span class="glyphicon glyphicon-pencil"></span> Add a record</button></li></a>
+                      <?php if (Auth::user()->type == 'author' || Auth::user()->type == 'admin') { ?>
+                        <a href="#" class="add-modal"><li><button class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-pencil"></span> Add a record</button></li></a>
+                      <?php } ?>
                     <a href="{{ route('home') }}" class="can-modal"><li><button class="back-modal btn btn-sm btn-info">
                     <span class="glyphicon glyphicon-log-out"></span> Back</button></li></a>
                 </ul>
@@ -25,8 +31,10 @@
                                 <th>Name</th>
                                 <th>Date_start</th>
                                 <th>Date_end</th>
-                                <th>Published?</th>
-                                <th>Last updated</th>
+                                <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' ) { ?>
+                                  <th>Published?</th>
+                                  <th>Last_updated</th>
+                                <?php } ?>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
@@ -36,31 +44,41 @@
                                 <tr class="item{{$record->id}} @if($record->is_published) warning @endif">
                                     <td class="col1">{{ $indexKey + 1 }}</td>
                                     <td>{{ $record->questionnaire_name }}</td>
-                                    <td>{{ $record->questionnaire_date_start }}</td>
-                                    <td>{{ $record->questionnaire_date_end }}</td>
-                                    <td class="text-center">
-                                      <input type="checkbox" class="published" id="" data-id="{{$record->id}}" @if ($record->is_published) checked @endif >
-                                    </td>
-                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $record->updated_at)->diffForHumans() }}</td>
-                                    <td>
-                                      <form action="{{ route('Questions.index') }}" method="GET" style="display: block;">
-                                        <button class="show-modal btn btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
-                                        <span class="glyphicon glyphicon-eye-open"></span> Show</button>
-                                        <button class="edit-modal btn btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="delete-modal btn btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete</button>
-                                        <button class="btn btn-success" type="submit">
-                                          <span class='glyphicon glyphicon-th-list'></span> Details
-                                        </button>
-                                        <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
-                                      </form>
-                                      <form action="{{ route('Replies.index') }}" method="GET" style="display: block;">
-                                        <button class="btn btn-success" type="submit">
-                                          <span class='glyphicon glyphicon-th'></span> Reply
-                                        </button>
-                                        <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
-                                      </form>
+                                    <td width=100>{{ $record->questionnaire_date_start }}</td>
+                                    <td width=100>{{ $record->questionnaire_date_end }}</td>
+                                    <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' ) { ?>
+                                      <td class="text-center">
+                                        <input type="checkbox" class="published" id="" data-id="{{$record->id}}" @if ($record->is_published) checked @endif >
+                                      </td>
+                                      <td width=120>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $record->updated_at)->diffForHumans() }}</td>
+                                    <?php } ?>
+                                    <td width=180>
+
+                                      <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' )  { ?>
+
+                                        <form action="{{ route('Questions.index') }}" method="GET" style="display: block;">
+                                          <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <span class="glyphicon glyphicon-eye-open"></span></button>
+                                          <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <span class="glyphicon glyphicon-edit"></span></button>
+                                          <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <span class="glyphicon glyphicon-trash"></span></button>
+                                          <button class="btn btn-sm btn-success" type="submit">
+                                          <span class='glyphicon glyphicon-th-list'></span></button>
+                                          <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
+                                        </form>
+
+                                      <?php } else { ?>
+
+                                        <form action="{{ route('Replies.index') }}" method="GET" style="display: block;">
+                                          <button class="btn btn-success" type="submit">
+                                            <span class='glyphicon glyphicon-th'></span> Reply
+                                          </button>
+                                          <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
+                                        </form>
+
+                                      <?php } ?>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -354,24 +372,24 @@
                     + data.questionnaire_date_end   + "</td><td class='text-center'>"
                     +                            '' + "<input type='checkbox' class='new_published' data-id='"
                     + data.id                       + "'></td><td>Just now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                            '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    +                            '' + "<span class='glyphicon glyphicon-eye-open'></span></button> "
+                    +                            '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    +                            '' + "<span class='glyphicon glyphicon-edit'></span></button> "
+                    +                            '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
                     + data.questionnaire_date_end   + "'>"
-                    +                            '' + "<span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    +                            '' + "<span class='glyphicon glyphicon-trash'></span></button> "
                     +                            '' + "</td></tr>"
                     );
 
@@ -460,21 +478,21 @@
                     + data.questionnaire_date_end   + "</td><td class='text-center'>"
                     +                            '' + "<input type='checkbox' class='edit_published' data-id='"
                     + data.id                       + "'></td><td>Right now!</td><td>"
-                    +                            '' + "<button class='show-modal btn btn-success' onclick='event.preventDefault();' data-id='"
+                    +                            '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
-                    +                            '' + "<button class='edit-modal btn btn-info' onclick='event.preventDefault();' data-id='"
+                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-eye-open'></span></button> "
+                    +                            '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
-                    +                            '' + "<button class='delete-modal btn btn-danger' onclick='event.preventDefault();' data-id='"
+                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-edit'></span></button> "
+                    +                            '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                       + "' data-name='"
                     + data.questionnaire_name       + "' data-date_start='"
                     + data.questionnaire_date_start + "' data-date_end='"
-                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    + data.questionnaire_date_end   + "'><span class='glyphicon glyphicon-trash'></span></button> "
                     +                            '' + "</td></tr>"
                     );
 

@@ -186,29 +186,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-cog green"></i>
-              <p>
-                Control
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/users" class="nav-link">
-                  <i class="nav-icon fas fa-users"></i>
-                  <p>Users</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/developer" class="nav-link">
-                  <i class="nav-icon fas fa-cogs"></i>
-                  <p>Developers</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+          <?php if ( Auth::user()->type == 'admin' )  { ?>
+
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-cog green"></i>
+                <p>
+                  Control
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/users" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Users</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/developer" class="nav-link">
+                    <i class="nav-icon fas fa-cogs"></i>
+                    <p>Developers</p>
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+
+          <?php } ?>
 
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
@@ -278,67 +282,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </div>
 
-    <div class="content">
-      <div class="container-fluid">
-        <router-view></router-view>
-        <vue-progress-bar></vue-progress-bar>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+    <?php if ( Auth::user()->type == 'admin' )  { ?>
 
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
+      <div class="content">
+        <div class="container-fluid">
+          <router-view></router-view>
+          <vue-progress-bar></vue-progress-bar>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
 
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make up the bulk of the card's
+                    content.
+                  </p>
+
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+              </div>
+
+              <div class="card card-primary card-outline">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make up the bulk of the card's
+                    content.
+                  </p>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
               </div>
             </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="m-0">Featured</h5>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-title">Special title treatment</h6>
 
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
 
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="m-0">Featured</h5>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-title">Special title treatment</h6>
 
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+    <?php } ?>
+
   </div>
 
   <!-- Control Sidebar -->
