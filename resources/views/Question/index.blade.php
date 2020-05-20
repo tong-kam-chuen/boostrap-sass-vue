@@ -57,7 +57,11 @@
                     </table>
             </div><!-- /.panel-body -->
         </div><!-- /.panel panel-default -->
-    </div><!-- /.col-md-8 -->
+    </div><!-- /.col-md-12 -->
+
+    <?php
+      $types = ['textarea','string','option','number','date','time','datetime','canvas'];
+     ?>
 
     <!-- Modal form to add a record -->
     <div id="addModal" class="modal fade" role="dialog">
@@ -91,11 +95,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="type">Type:</label>
-                            <?php
-                              $types = ['textarea','string','option','number','date','time','datetime'];
-                             ?>
                             <div class="col-sm-10">
-                                <!-- <input type="text" class="form-control" id="type_add" /> -->
                                 <select name="question_type" class="form-control" id="type_add">
                                   <option></option>
                                   <?php
@@ -198,11 +198,8 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="type">Type:</label>
-                            <?php
-                              $types = ['textarea','string','option','number','date','time','datetime'];
-                             ?>
                             <div class="col-sm-10">
-                                <input type="hidden" class="form-control" id="selected" />
+                                <input type="hidden" class="form-control" id="option" />
                                 <select name="question_type" class="form-control" id="type_edit">
                                   <option></option>
                                   <?php
@@ -308,11 +305,11 @@
     // add a new record
     $(document).on('click', '.add-modal', function() {
         // Empty input fields
-        $('#text_add')      .val('');
-        $('#date_add')      .val('');
-        $('#type_add')      .val('');
-        $('.modal-title')   .text('Add');
-        $('#addModal')      .modal('show');
+        $('#text_add')       .val('');
+        $('#date_add')       .val('');
+        $('#type_add')       .val('');
+        $('.modal-title')    .text('Add');
+        $('#addModal')       .modal('show');
     });
     $('.modal-footer').on('click', '.add', function() {
         $.ajax({
@@ -388,15 +385,15 @@
 
     // Edit a record
     $(document).on('click', '.edit-modal', function() {
-        $('.modal-title')      .text('Edit');
-        $('#id_edit')          .val($(this).data('id'));
-        $('#text_edit')        .val($(this).data('text'));
-        $('#date_edit')        .val($(this).data('date'));
-        $('#selected')         .val($(this).data('type'));
-        option = $('#selected').val();
-        $("#type_edit")        .val(option).change();
-        id = $('#id_edit')     .val();
-        $('#editModal')        .modal('show');
+        $('.modal-title')    .text('Edit');
+        $('#id_edit')        .val($(this).data('id'));
+        $('#text_edit')      .val($(this).data('text'));
+        $('#date_edit')      .val($(this).data('date'));
+        $('#selected')       .val($(this).data('type'));
+        option = $('#option').val();
+        $("#type_edit")      .val(option).change();
+        id = $('#id_edit')   .val();
+        $('#editModal')      .modal('show');
     });
     $('.modal-footer').on('click', '.edit', function() {
         $.ajax({
@@ -459,13 +456,13 @@
 
     // delete a record
     $(document).on('click', '.delete-modal', function() {
-        $('.modal-title')      .text('Delete');
-        $('#id_delete')        .val($(this).data('id'));
-        $('#text_delete')      .val($(this).data('text'));
-        $('#date_delete')      .val($(this).data('date'));
-        $('#type_delete')      .val($(this).data('type'));
-        $('#deleteModal')      .modal('show');
-        id = $('#id_delete')   .val();
+        $('.modal-title')    .text('Delete');
+        $('#id_delete')      .val($(this).data('id'));
+        $('#text_delete')    .val($(this).data('text'));
+        $('#date_delete')    .val($(this).data('date'));
+        $('#type_delete')    .val($(this).data('type'));
+        $('#deleteModal')    .modal('show');
+        id = $('#id_delete') .val();
     });
     $('.modal-footer').on('click', '.delete', function() {
         $.ajax({

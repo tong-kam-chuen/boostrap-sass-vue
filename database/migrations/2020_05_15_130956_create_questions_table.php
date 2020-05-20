@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->longText('question_text')->nullable();
             $table->date    ('question_date')->nullable();
-            $table->enum    ('question_type', array('textarea', 'string', 'option', 'number', 'date', 'time', 'datetime'))->nullable();
+            $table->enum    ('question_type', array('textarea', 'string', 'option', 'number', 'date', 'time', 'datetime', 'canvas'))->nullable();
             $table->unsignedBigInteger('questionnaire_id')->nullable();
             $table->timestamps();
             $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');
