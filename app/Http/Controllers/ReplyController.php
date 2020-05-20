@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Image;
+use Storage;
 use App\Reply;
 use App\Option;
 use App\Question;
@@ -73,10 +75,20 @@ class ReplyController extends Controller
     public function store(Request $request)
     {
         $user_id = isset(Auth::user()->id)? Auth::user()->id : null;
+        $reply_text = isset($request->reply_text)? $request->reply_text : null;
+        $question_id = isset($request->question_id)? $request->question_id : null;
+
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = $user_id . time() . $image->getClientOriginalName();
+            $location = "images/$filename";
+            $savefile = public_path($location);
+            Image::make($image)->save($savefile);
+        }
 
         $Reply = new Reply;
-        $Reply->reply_text = $request->reply_text;
-        $Reply->question_id = $request->question_id;
+        $Reply->reply_text = $reply_text;
+        $Reply->question_id = $question_id;
         $Reply->user_id = $user_id;
         $Reply->save();
 
@@ -126,5 +138,35 @@ class ReplyController extends Controller
     public function destroy(Reply $reply)
     {
         //
+    }
+
+    public function saveImage(Request $request)
+    {
+        $image = Image::make($request->get('imgBase64'));
+        $image->save('public/img/profile.jpg');
+    }
+
+    public function setavatareffect(Request $request)
+    {
+        $user = User::where('username', Auth::user()->username)->firstOrFail();
+        $user_avatar_path = array_filter(File::allFiles('public/storage/users/' . Auth::user()->id . '-' . Auth::user()->reg_num),
+
+        function ($user_avatar_path)
+        {
+            return preg_match('/\b' . Auth::user()->reg_num. '(.*)/', $user_avatar_path);
+        });
+
+        $path = 'public/users/' . Auth::user()->id . '-' . Auth::user()->reg_num . '/' . 'edited_avatar';
+        $save_path = 'public/storage/users/' . Auth::user()->id . '-' . Auth::user()->reg_num . '/' . 'edited_avatar';
+        if ( !Storage::exists ($path) ) {
+            Storage::MakeDirectory($path, 0755, true);
+        }
+        foreach ( $user_avatar_path as $user_path )
+        {
+            $image = Image::make($user_path);
+            $image->save($save_path . '/e_' . Auth::user()->u_avatar);
+        }
+
+        return redirect()->back();
     }
 }
