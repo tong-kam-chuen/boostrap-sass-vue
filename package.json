@@ -29,6 +29,7 @@
         "bootstrap-sass": "^3.4.1",
         "moment": "^2.18.1",
         "pipes-and-filters": "0.0.4",
+        "signature_pad": "^3.0.0-beta.3",
         "sweetalert2": "^9.10.13",
         "vform": "^1.0.1",
         "vue-progressbar": "^0.7.5",
