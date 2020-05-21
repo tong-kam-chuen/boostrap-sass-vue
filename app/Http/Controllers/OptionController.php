@@ -19,7 +19,7 @@ class OptionController extends Controller
                          ->orderBy('id', 'DESC')
                          ->get();
 
-        return view('Option.index')->with(['Options' => $Options , 'question_id' => request()->question_id]);
+        return view('Option.index')->with(['Options' => $Options , 'question_id' => request()->question_id , 'questionnaire_id' => request()->questionnaire_id]);
     }
 
     /**

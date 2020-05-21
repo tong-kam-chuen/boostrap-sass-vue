@@ -1,285 +1,307 @@
 @include('layouts.header')
 
 <div class="container">
-    <div class="row justify-content-center mb-3">
 
-    <div class="col-md-12 col-md-offset-0">
-        <h3 class="text-center">Manage Questions</h3>
-        <br />
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <ul>
-                    <li><i class="fa fa-file-text-o"></i> All the current Records from Questionnaire <?php echo $_GET['questionnaire_id']; ?></li>
-                    <a href="#" class="add-modal"><li><button class="btn btn-sm btn-danger">
-                    <span class="glyphicon glyphicon-pencil"></span> Add a record</button></li></a>
-                    <a href="{{ route('home') }}" class="home-modal"><li><button class="home-modal btn btn-sm btn-info">
-                    <span class="glyphicon glyphicon-log-out"></span> Home</button></li></a>
-                    <a href="{{ route('Questionnaires.index') }}" class="back-modal"><li><button class="back-modal btn btn-sm btn-info">
-                    <span class="glyphicon glyphicon-log-out"></span> Back</button></li></a>
-                </ul>
-            </div>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
 
-            <div class="panel-body">
-                    <table class="table table-striped table-bordered table-hover" id="recordTable" style="visibility: hidden;">
-                        <thead>
-                            <tr>
-                                <th valign="middle">#</th>
-                                <th>Question_Text</th>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Actions</th>
-                            </tr>
-                            {{ csrf_field() }}
-                        </thead>
-                        <tbody>
-                            @foreach($Questions as $indexKey => $record)
-                                <tr class="item{{ $record->id }}">
-                                    <td class="col1" width=60>{{ $indexKey + 1 }}</td>
-                                    <td>{{ $record->question_text }}</td>
-                                    <td width=100>{{ $record->question_date }}</td>
-                                    <td>{{ $record->question_type }}</td>
-                                    <td width=180>
-                                      <form action="{{ route('Options.index') }}" method="GET" style="display: block;">
-                                        <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
-                                        <span class="glyphicon glyphicon-eye-open"></span></button>
-                                        <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
-                                        <span class="glyphicon glyphicon-edit"></span></button>
-                                        <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
-                                        <span class="glyphicon glyphicon-trash"></span></button>
-                                        <?php if ($record->question_type == 'option') { ?>
-                                        <button class="btn btn-sm btn-success">
-                                        <span class='glyphicon glyphicon-th-list'></span></button>
-                                        <input type="hidden" class="form-control" name="question_id" value="{{ $record->id }}" />
-                                        <?php } ?>
-                                      </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-            </div><!-- /.panel-body -->
-        </div><!-- /.panel panel-default -->
-    </div><!-- /.col-md-12 -->
-
-    <?php
-      $types = ['textarea','string','option','number','date','time','datetime','canvas'];
-     ?>
-
-    <!-- Modal form to add a record -->
-    <div id="addModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="parent">Parent#:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="id_add" name="questionnaire_id" value="<?php echo $_GET['questionnaire_id'] ?>" readonly />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="text">Text:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="text_add" autofocus />
-                                <small>Min: 2, Max: 250, only text</small>
-                                <p class="errorName text-center alert alert-danger hidden"></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="date">Date:</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_add" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="type">Type:</label>
-                            <div class="col-sm-10">
-                                <select name="question_type" class="form-control" id="type_add">
-                                  <option></option>
-                                  <?php
-                                   foreach ($types as $key) {
-                                   ?>
-                                   <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
-                                  <?php
-                                   }
-                                   ?>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success add" data-dismiss="modal">
-                            <span id="" class='glyphicon glyphicon-check'></span> Add
-                        </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Close
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="home">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('Questionnaires.index') }}">Questionnaires</a></li>
+              <li class="breadcrumb-item active">Questions</li> Page
+            </ol>
+          </div>
         </div>
-    </div>
 
-    <!-- Modal form to show a record -->
-    <div id="showModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="id">ID:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="id_show" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="text">Text:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="text_show" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="date">Date:</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_show" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="type">Type:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="type_show" disabled />
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Close
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div class="row justify-content-center mb-3">
+          <div class="col-md-12 col-md-offset-0">
+              <div>
+                <a href="#" class="add-modal">
+                  <button type="submit" class="btn btn-warning pull-right">
+                    <span class="glyphicon glyphicon-pencil"></span> Add a record
+                  </button>
+                </a>
+              </div>
+              <div style="both:clear;"></div><br /><br />
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <ul>
+                          <li><i class="fa fa-file-text-o"></i> All the current Records in Questionnaire <?php echo $_GET['questionnaire_id']; ?></li>
+                      </ul>
+                  </div>
+
+                  <div class="panel-body">
+                          <table class="table table-striped table-bordered table-hover" id="recordTable" style="visibility: hidden;">
+                              <thead>
+                                  <tr>
+                                      <th valign="middle">#</th>
+                                      <th>Question_Text</th>
+                                      <th>Date</th>
+                                      <th>Type</th>
+                                      <th>Actions</th>
+                                  </tr>
+                                  {{ csrf_field() }}
+                              </thead>
+                              <tbody>
+                                  @foreach($Questions as $indexKey => $record)
+                                      <tr class="item{{ $record->id }}">
+                                          <td class="col1" width=60>{{ $indexKey + 1 }}</td>
+                                          <td>{{ $record->question_text }}</td>
+                                          <td width=100>{{ $record->question_date }}</td>
+                                          <td>{{ $record->question_type }}</td>
+                                          <td width=180>
+                                            <form action="{{ route('Options.index') }}" method="GET" style="display: block;">
+                                              <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                              <span class="glyphicon glyphicon-eye-open"></span></button>
+                                              <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                              <span class="glyphicon glyphicon-edit"></span></button>
+                                              <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-text="{{ $record->question_text }}" data-date="{{ $record->question_date }}" data-type="{{ $record->question_type }}">
+                                              <span class="glyphicon glyphicon-trash"></span></button>
+                                              <?php if ($record->question_type == 'option') { ?>
+                                              <button class="btn btn-sm btn-success">
+                                              <span class='glyphicon glyphicon-th-list'></span></button>
+                                              <input type="hidden" class="form-control" name="question_id" value="{{ $record->id }}" />
+                                              <input type="hidden" class="form-control" name="questionnaire_id" value="{{ $questionnaire_id }}" />
+                                              <?php } ?>
+                                            </form>
+                                          </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                  </div><!-- /.panel-body -->
+              </div><!-- /.panel panel-default -->
+          </div><!-- /.col-md-12 -->
+
+          <?php
+            $types = ['textarea','string','option','number','date','time','datetime','canvas'];
+           ?>
+
+          <!-- Modal form to add a record -->
+          <div id="addModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"></h4>
+                      </div>
+                      <div class="modal-body">
+                          <form class="form-horizontal" role="form">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="parent">Parent#:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="id_add" name="questionnaire_id" value="<?php echo $_GET['questionnaire_id'] ?>" readonly />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="text">Text:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="text_add" autofocus />
+                                      <small>Min: 2, Max: 250, only text</small>
+                                      <p class="errorName text-center alert alert-danger hidden"></p>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="date">Date:</label>
+                                  <div class="col-sm-10">
+                                      <input type="date" class="form-control" id="date_add" />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="type">Type:</label>
+                                  <div class="col-sm-10">
+                                      <select name="question_type" class="form-control" id="type_add">
+                                        <option></option>
+                                        <?php
+                                         foreach ($types as $key) {
+                                         ?>
+                                         <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
+                                        <?php
+                                         }
+                                         ?>
+                                      </select>
+                                  </div>
+                              </div>
+                          </form>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-success add" data-dismiss="modal">
+                                  <span id="" class='glyphicon glyphicon-check'></span> Add
+                              </button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                  <span class='glyphicon glyphicon-remove'></span> Close
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal form to show a record -->
+          <div id="showModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"></h4>
+                      </div>
+                      <div class="modal-body">
+                          <form class="form-horizontal" role="form">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="id">ID:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="id_show" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="text">Text:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="text_show" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="date">Date:</label>
+                                  <div class="col-sm-10">
+                                      <input type="date" class="form-control" id="date_show" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="type">Type:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="type_show" disabled />
+                                  </div>
+                              </div>
+                          </form>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                  <span class='glyphicon glyphicon-remove'></span> Close
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal form to edit a form -->
+          <div id="editModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"></h4>
+                      </div>
+                      <div class="modal-body">
+                          <form class="form-horizontal" role="form">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="id">ID:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="id_edit" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="text">Text:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="text_edit" autofocus />
+                                      <p class="errorName text-center alert alert-danger hidden"></p>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="date">Date:</label>
+                                  <div class="col-sm-10">
+                                      <input type="date" class="form-control" id="date_edit" />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="type">Type:</label>
+                                  <div class="col-sm-10">
+                                      <input type="hidden" class="form-control" id="option" />
+                                      <select name="question_type" class="form-control" id="type_edit">
+                                        <option></option>
+                                        <?php
+                                         foreach ($types as $key) {
+                                         ?>
+                                         <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
+                                        <?php
+                                         }
+                                         ?>
+                                      </select>
+                                  </div>
+                              </div>
+                          </form>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-primary edit" data-dismiss="modal">
+                                  <span class='glyphicon glyphicon-check'></span> Edit
+                              </button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                  <span class='glyphicon glyphicon-remove'></span> Close
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal form to delete a form -->
+          <div id="deleteModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"></h4>
+                      </div>
+                      <div class="modal-body">
+                          <h3 class="text-center">Are you sure you want to delete the following record?</h3>
+                          <br />
+                          <form class="form-horizontal" role="form">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="id">ID:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="id_delete" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="text">Text:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="text_delete" disabled />
+                                      <p class="errorName text-center alert alert-danger hidden"></p>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="date">Date:</label>
+                                  <div class="col-sm-10">
+                                      <input type="date" class="form-control" id="date_delete" disabled />
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" for="type">Type:</label>
+                                  <div class="col-sm-10">
+                                      <input type="text" class="form-control" id="type_delete" disabled />
+                                  </div>
+                              </div>
+                          </form>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-danger delete" data-dismiss="modal">
+                                  <span id="" class='glyphicon glyphicon-trash'></span> Delete
+                              </button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                  <span class='glyphicon glyphicon-remove'></span> Close
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
         </div>
+      </div>
     </div>
-
-    <!-- Modal form to edit a form -->
-    <div id="editModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="id">ID:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="id_edit" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="text">Text:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="text_edit" autofocus />
-                                <p class="errorName text-center alert alert-danger hidden"></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="date">Date:</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_edit" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="type">Type:</label>
-                            <div class="col-sm-10">
-                                <input type="hidden" class="form-control" id="option" />
-                                <select name="question_type" class="form-control" id="type_edit">
-                                  <option></option>
-                                  <?php
-                                   foreach ($types as $key) {
-                                   ?>
-                                   <option value="<?php echo $key; ?>" > <?php echo $key; ?></option>
-                                  <?php
-                                   }
-                                   ?>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary edit" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-check'></span> Edit
-                        </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal form to delete a form -->
-    <div id="deleteModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <h3 class="text-center">Are you sure you want to delete the following record?</h3>
-                    <br />
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="id">ID:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="id_delete" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="text">Text:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="text_delete" disabled />
-                                <p class="errorName text-center alert alert-danger hidden"></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="date">Date:</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date_delete" disabled />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="type">Type:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="type_delete" disabled />
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger delete" data-dismiss="modal">
-                            <span id="" class='glyphicon glyphicon-trash'></span> Delete
-                        </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
   </div>
+
 </div>
 
 <!-- jQuery -->
