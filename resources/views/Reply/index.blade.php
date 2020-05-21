@@ -28,9 +28,11 @@
               @foreach($Questions as $record)
 
               <?php
+                $question_id = isset($record->id) ? $record->id : null;
+                $question_type = isset($record->question_type) ? $record->question_type : null;
                 $reply_text = null;
                 foreach ($Replies as $rec) {
-                  if ($rec['question_id'] == $record->id) {
+                  if ($rec['question_id'] == $question_id) {
                     $reply_text = isset($rec['reply_text']) ? $rec['reply_text'] : null;
                   }
                 }
@@ -39,17 +41,17 @@
               <div class="panel panel-default">
                   <div class="panel-heading">
                       <ul>
-                        <li><i class="fa fa-file-text-o"></i> Question  {{ $record->id }} : {{ $record->question_text }} </li>
+                        <li><i class="fa fa-file-text-o"></i> Question {{ $record->id }} : {{ $record->question_text }} </li>
                       </ul>
                   </div>
 
                   <div class="panel-body">
                       <form action="{{ route('Replies.store') }}" method="POST">
                         <?php
-                          switch ($record->question_type) {
+                          switch ($question_type) {
                             case 'textarea':
                          ?>
-                         <textarea cols=120 rows=5 name="reply_text" class="form-control">
+                         <textarea cols=120 rows=5 name="reply_text" class="form-control" <?php if ($reply_text) echo 'readonly' ?> >
                            <?php
                             echo ($reply_text) ? htmlspecialchars($reply_text) : null;
                             ?>
@@ -62,14 +64,14 @@
                          ?>
                          <input name="reply_text" type="text" class="form-control" value="<?php
                           echo ($reply_text) ? $reply_text : null;
-                          ?>" />
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> />
                         <?php
                             break;
                          ?>
                         <?php
                             case 'option':
                          ?>
-                         <select name="reply_text" class="form-control">
+                         <select name="reply_text" class="form-control" <?php if ($reply_text) echo 'disabled' ?> >
                            <option></option>
                            <?php
                             foreach ($Options as $key) {
@@ -89,7 +91,7 @@
                          ?>
                          <input name="reply_text" type="number" class="form-control" value="<?php
                           echo ($reply_text) ? trim($reply_text) : null;
-                          ?>" />
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> />
                         <?php
                             break;
                          ?>
@@ -98,7 +100,7 @@
                          ?>
                          <input name="reply_text" type="date" class="form-control" value="<?php
                           echo ($reply_text) ? date('Y-m-d', strtotime($reply_text)) : null;
-                          ?>" />
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> />
                         <?php
                             break;
                          ?>
@@ -107,7 +109,7 @@
                          ?>
                          <input name="reply_text" type="time" class="form-control" value="<?php
                           echo ($reply_text) ? date('H:i:s', strtotime($reply_text)) : null;
-                          ?>" />
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> />
                         <?php
                             break;
                          ?>
@@ -116,34 +118,21 @@
                          ?>
                          <input name="reply_text" type="datetime" class="form-control" value="<?php
                           echo ($reply_text) ? date('Y-m-d H:i:s', strtotime($reply_text)) : null;
-                          ?>" />
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> />
                         <?php
                             break;
                          ?>
                         <?php
                             case 'canvas':
                          ?>
-                        <style>
-                        #signature{
-                         width: 300px; height: 200px;
-                         border: 1px solid black;
-                        }
-                        </style>
-
-                        <!-- Signature -->
-                        <div id="signature" style=''>
-                         <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas>
+                        <div id="signature">
+                          <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                         </div>
-                        <br />
-
-                        <input type='button' id='click' value='preview'>
-                        <br />
-                        <textarea id='output'></textarea>
-                        <br />
-
-                        <!-- Preview image -->
-                        <img src='' id='sign_prev' style='display: none;' />
-
+                        <div id="drawing">
+                          <input type='button' id='reply_draw' value='Confirm Drawing' class="btn btn-primary" style="margin-top:5px; margin-bottom:5px;"><br />
+                        </div>
+                        <textarea id='reply_text' name="reply_text">{{ isset($reply_text) ? $reply_text : null }}</textarea><br />
+                        <img src='' id='reply_sign' style='display: none;' />
                         <?php
                             break;
                          ?>
@@ -157,23 +146,11 @@
                           }
                          ?>
                         <div style="both:clear"></div><br />
-                        <input type="hidden" class="form-control" name="question_id" value="{{ $record->id }}" />
+                        <input type="hidden" class="form-control" id="question_id" name="question_id" value="{{ $question_id }}" />
                         @csrf
-                        <?php if ($record->question_type == 'canvas') { ?>
-                          <a href="#" id="resetbtn" class="btn btn-warning" style="width:125px; height:34px;">
-                              Reset
-                          </a>
-                          <a href="#" id="noisebtn" class="btn btn-primary" style="width:125px; height:34px;">
-                              Noise
-                          </a>
-                          <button type="submit" class="btn btn-success pull-left" id="save_image" style="margin-right:5px">
-                              <i class="fa fa-save"></i> Save
-                          </button>
-                        <?php } else { ?>
-                          <button type="submit" class="btn btn-success pull-left" name="submit" value="Save">
-                              <i class="fa fa-save"></i> Save
-                          </button>
-                        <?php } ?>
+                        <button type="submit" name="submit" class="btn btn-success pull-left" id="save" style="<?php if ($reply_text) echo 'display:none' ?>" >
+                            <i class="fa fa-save"></i> Save
+                        </button>
                       </form>
                   </div><!-- /.panel-body -->
               </div><!-- /.panel panel-default -->
@@ -206,70 +183,31 @@
 
 <script>
     $(document).ready(function() {
-     var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
 
-     $('#click').click(function(){
-      var data = signaturePad.toDataURL('image/png');
-      $('#output').val(data);
+        <?php
+          // foreach ($Questions as $record) {
+          //   $question_id = isset($record->id) ? $record->id : null;
+         ?>
 
-      $("#sign_prev").show();
-      $("#sign_prev").attr("src",data);
-      // Open image in the browser
-      //window.open(data);
-     });
+        var signatureImg = $('#reply_text').val();
+        if (signatureImg){
+            $('#reply_sign').show();
+            $('#reply_sign').attr('src', signatureImg);
+        }
+
+        var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
+        $('#reply_draw').click(function() {
+            var data = signaturePad.toDataURL('image/png');
+            $('#reply_text').val(data);
+            $('#reply_draw').hide();
+            $('#reply_sign').show();
+            $('#reply_sign').attr('src', data);
+        });
+
+        <?php
+          // }
+         ?>
     })
  </script>
-
-<script>
-
-    $(document).on('click', '#save_image', function() {
-        var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
-        var canvas = document.getElementById('signature-pad');
-        var dataURL = canvas.toDataURL();
-        $.ajax({
-          type: "POST",
-          url: "/saveImage",
-          data: {
-              imgBase64: dataURL
-          }
-        }).done(function(data) {
-            console.log('Image saved');
-
-            // Do here whatever you want.
-        });
-    });
-
-    $(function() {
-        var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
-        var canvas = document.getElementById('signature-pad');
-        var ctx = canvas.getContext('2d');
-        var img = new Image();
-        img.crossOrigin = '';
-        img.src = '{{ url(dirname(public_path()) . '/' . basename(public_path())) }}';
-        img.onload = function() {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0, img.width, img.height);
-        }
-        var $reset = $('#resetbtn');
-        var $noise = $('#noisebtn');
-        $reset.on('click', function(e) {
-            e.preventDefault();
-            $('input[type=range]').val(0);
-            Caman('#image', img, function() {
-                this.revert(false);
-                this.render();
-            });
-        });
-        $noise.on('click', function(e) {
-            e.preventDefault();
-            Caman('#image', img, function() {
-                    this.noise(10).render();
-                });
-        });
-
-    });
-
-</script>
 
 @include('layouts.footer')

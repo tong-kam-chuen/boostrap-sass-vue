@@ -74,17 +74,9 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = isset(Auth::user()->id)? Auth::user()->id : null;
+        $user_id = isset(Auth::user()->id) ? Auth::user()->id : null;
         $reply_text = isset($request->reply_text)? $request->reply_text : null;
         $question_id = isset($request->question_id)? $request->question_id : null;
-
-        if ($request->hasFile('featured_image')) {
-            $image = $request->file('featured_image');
-            $filename = $user_id . time() . $image->getClientOriginalName();
-            $location = "images/$filename";
-            $savefile = public_path($location);
-            Image::make($image)->save($savefile);
-        }
 
         $Reply = new Reply;
         $Reply->reply_text = $reply_text;
