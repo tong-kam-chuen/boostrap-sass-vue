@@ -27,7 +27,7 @@
         "@fortawesome/fontawesome-free": "^5.13.0",
         "admin-lte": "^3.0.0-alpha.2",
         "bootstrap-sass": "^3.4.1",
-        "moment": "^2.18.1",
+        "moment": "^2.19.3",
         "pipes-and-filters": "0.0.4",
         "signature_pad": "^3.0.0-beta.3",
         "sweetalert2": "^9.10.13",
