@@ -48,7 +48,10 @@
                                     <td width=100>{{ $record->questionnaire_date_end }}</td>
                                     <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' ) { ?>
                                       <td class="text-center">
-                                        <input type="checkbox" class="published" id="" data-id="{{$record->id}}" @if ($record->is_published) checked @endif >
+                                        <?php
+                                          $is_published = isset($record->is_published) ? $record->is_published : null;
+                                         ?>
+                                        <input type="checkbox" class="published" id="" data-id="{{ $record->id }}" @if ($is_published) checked @endif >
                                       </td>
                                       <td width=120>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $record->updated_at)->diffForHumans() }}</td>
                                     <?php } ?>
@@ -57,15 +60,15 @@
                                       <?php if ( Auth::user()->type == 'author' || Auth::user()->type == 'admin' )  { ?>
 
                                         <form action="{{ route('Questions.index') }}" method="GET" style="display: block;">
-                                          <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <button class="show-modal btn btn-sm btn-success" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-name="{{ $record->questionnaire_name }}" data-date_start="{{ $record->questionnaire_date_start }}" data-date_end="{{ $record->questionnaire_date_end }}">
                                           <span class="glyphicon glyphicon-eye-open"></span></button>
-                                          <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <button class="edit-modal btn btn-sm btn-info" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-name="{{ $record->questionnaire_name }}" data-date_start="{{ $record->questionnaire_date_start }}" data-date_end="{{ $record->questionnaire_date_end }}">
                                           <span class="glyphicon glyphicon-edit"></span></button>
-                                          <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{$record->id}}" data-name="{{$record->questionnaire_name}}" data-date_start="{{$record->questionnaire_date_start}}" data-date_end="{{$record->questionnaire_date_end}}">
+                                          <button class="delete-modal btn btn-sm btn-danger" onclick="event.preventDefault();" data-id="{{ $record->id }}" data-name="{{ $record->questionnaire_name }}" data-date_start="{{ $record->questionnaire_date_start }}" data-date_end="{{ $record->questionnaire_date_end }}">
                                           <span class="glyphicon glyphicon-trash"></span></button>
                                           <button class="btn btn-sm btn-success" type="submit">
                                           <span class='glyphicon glyphicon-th-list'></span></button>
-                                          <input type="hidden" class="form-control" name="questionnaire_id" value="{{$record->id}}" />
+                                          <input type="hidden" class="form-control" name="questionnaire_id" value="{{ $record->id }}" />
                                         </form>
 
                                       <?php } else { ?>
