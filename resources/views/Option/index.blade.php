@@ -8,9 +8,9 @@
       <div class="container-fluid">
 
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-xs-0  col-sm-3 col-md-6">
           </div>
-          <div class="col-sm-6">
+          <div class="col-xs-12 col-sm-9 col-md-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="home">Home</a></li>
               <li class="breadcrumb-item"><a href="{{ route('Questionnaires.index') }}">Questionnaires</a></li>
@@ -19,7 +19,7 @@
                    onclick="event.preventDefault(); document.getElementById('back-form').submit();">Questions
                 </a>
               </li>
-              <li class="breadcrumb-item active">Options</li> Page
+              <li class="breadcrumb-item active">Options Page</li>
             </ol>
           </div>
         </div>
@@ -110,7 +110,7 @@
                           </form>
                           <div class="modal-footer">
                               <button type="button" class="btn btn-success add" data-dismiss="modal">
-                                  <span id="" class='glyphicon glyphicon-check'></span> Add
+                                  <i class="fa fa-save"></i> Save
                               </button>
                               <button type="button" class="btn btn-warning" data-dismiss="modal">
                                   <span class='glyphicon glyphicon-remove'></span> Close
@@ -191,8 +191,8 @@
                               </div>
                           </form>
                           <div class="modal-footer">
-                              <button type="button" class="btn btn-primary edit" data-dismiss="modal">
-                                  <span class='glyphicon glyphicon-check'></span> Edit
+                              <button type="button" class="btn btn-success edit" data-dismiss="modal">
+                                  <i class="fa fa-save"></i> Save
                               </button>
                               <button type="button" class="btn btn-warning" data-dismiss="modal">
                                   <span class='glyphicon glyphicon-remove'></span> Close
@@ -397,15 +397,15 @@
                     +                     '' + "<button class='show-modal btn btn-sm btn-success' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
-                    + data.option_date       + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> "
+                    + data.option_date       + "'><span class='glyphicon glyphicon-eye-open'></span></button> "
                     +                     '' + "<button class='edit-modal btn btn-sm btn-info' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
-                    + data.option_date       + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> "
+                    + data.option_date       + "'><span class='glyphicon glyphicon-edit'></span></button> "
                     +                     '' + "<button class='delete-modal btn btn-sm btn-danger' onclick='event.preventDefault();' data-id='"
                     + data.id                + "' data-text='"
                     + data.option_text       + "' data-date='"
-                    + data.option_date       + "'><span class='glyphicon glyphicon-trash'></span> Delete</button> "
+                    + data.option_date       + "'><span class='glyphicon glyphicon-trash'></span></button> "
                     +                     '' + "</td></tr>"
                     );
 

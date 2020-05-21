@@ -8,13 +8,13 @@
       <div class="container-fluid">
 
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-xs-0  col-sm-3 col-md-6">
           </div>
-          <div class="col-sm-6">
+          <div class="col-xs-12 col-sm-9 col-md-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="home">Home</a></li>
               <li class="breadcrumb-item"><a href="{{ route('Questionnaires.index') }}">Questionnaires</a></li>
-              <li class="breadcrumb-item active">Questions</li> Page
+              <li class="breadcrumb-item active">Questions Page</li>
             </ol>
           </div>
         </div>
@@ -131,7 +131,7 @@
                           </form>
                           <div class="modal-footer">
                               <button type="button" class="btn btn-success add" data-dismiss="modal">
-                                  <span id="" class='glyphicon glyphicon-check'></span> Add
+                                  <i class="fa fa-save"></i> Save
                               </button>
                               <button type="button" class="btn btn-warning" data-dismiss="modal">
                                   <span class='glyphicon glyphicon-remove'></span> Close
@@ -234,8 +234,8 @@
                               </div>
                           </form>
                           <div class="modal-footer">
-                              <button type="button" class="btn btn-primary edit" data-dismiss="modal">
-                                  <span class='glyphicon glyphicon-check'></span> Edit
+                              <button type="button" class="btn btn-success edit" data-dismiss="modal">
+                                  <i class="fa fa-save"></i> Save
                               </button>
                               <button type="button" class="btn btn-warning" data-dismiss="modal">
                                   <span class='glyphicon glyphicon-remove'></span> Close
@@ -416,7 +416,7 @@
         $('#id_edit')        .val($(this).data('id'));
         $('#text_edit')      .val($(this).data('text'));
         $('#date_edit')      .val($(this).data('date'));
-        $('#selected')       .val($(this).data('type'));
+        $('#option')         .val($(this).data('type'));
         option = $('#option').val();
         $("#type_edit")      .val(option).change();
         id = $('#id_edit')   .val();

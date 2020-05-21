@@ -7,10 +7,9 @@
       <div class="container-fluid">
 
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Reply Page</h1>
+          <div class="col-xs-0  col-sm-3 col-md-6">
           </div>
-          <div class="col-sm-6">
+          <div class="col-xs-12 col-sm-9 col-md-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="home">Home</a></li>
               <li class="breadcrumb-item"><a href="Questionnaires">Questionnaires</a></li>
@@ -21,13 +20,10 @@
 
         <div class="row justify-content-center mb-3">
           <div class="col-md-12 col-md-offset-0">
-              <h3 class="text-center">
-                Questionnaire <?php echo $_GET['questionnaire_id']; ?> : <?php echo $Questionnaire = isset($Questionnaire->questionnaire_name) ? $Questionnaire->questionnaire_name : null; ?>
-              </h3>
+              <h4 class="text-left">
+                <?php echo $Questionnaire = isset($Questionnaire->questionnaire_name) ? $Questionnaire->questionnaire_name : null; ?>
+              </h4>
               <br />
-              <?php
-                $types = ['textarea','string','option','number','date','time','datetime'];
-               ?>
 
               @foreach($Questions as $record)
 
@@ -137,41 +133,23 @@
                         <!-- Signature -->
                         <div id="signature" style=''>
                          <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas>
-                        </div><br/>
+                        </div>
+                        <br />
 
-                        <input type='button' id='click' value='preview'><br/>
-                        <textarea id='output'></textarea><br/>
+                        <input type='button' id='click' value='preview'>
+                        <br />
+                        <textarea id='output'></textarea>
+                        <br />
 
                         <!-- Preview image -->
                         <img src='' id='sign_prev' style='display: none;' />
 
-                        <center>
-                            <canvas id="image" style="max-width:100%; border:1px solid #000000;">
-                            </canvas>
-                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas>
-                        </center>
-
-                        <a href="#" id="resetbtn" class="btn btn-success" style="width:125px; height:34px;">
-                            Reset
-                        </a>
-                        <a href="#" id="noisebtn" class="btn btn-primary" style="width:125px; height:34px;">
-                            Noise
-                        </a>
-                        <button type="submit" class="btn btn-warning pull-right" id="save_image">
-                            <i class="fa fa-save"></i> Save Changes
-                        </button>
                         <?php
                             break;
                          ?>
                         <?php
                             default:
                          ?>
-                        <center>
-                          <div class="canvas__container">
-                            <canvas id="cnvs" class="canvas__canvas" name="reply_text" style="max-width:100%; border:1px solid #000000;"></canvas>
-                            <img id="mirror" class="canvas__mirror" />
-                          </div>
-                        </center>
                         <?php
                             break;
                          ?>
@@ -181,7 +159,21 @@
                         <div style="both:clear"></div><br />
                         <input type="hidden" class="form-control" name="question_id" value="{{ $record->id }}" />
                         @csrf
-                        <input type="submit" class="btn btn-success" name="submit" value="Save" />
+                        <?php if ($record->question_type == 'canvas') { ?>
+                          <a href="#" id="resetbtn" class="btn btn-warning" style="width:125px; height:34px;">
+                              Reset
+                          </a>
+                          <a href="#" id="noisebtn" class="btn btn-primary" style="width:125px; height:34px;">
+                              Noise
+                          </a>
+                          <button type="submit" class="btn btn-success pull-left" id="save_image" style="margin-right:5px">
+                              <i class="fa fa-save"></i> Save
+                          </button>
+                        <?php } else { ?>
+                          <button type="submit" class="btn btn-success pull-left" name="submit" value="Save">
+                              <i class="fa fa-save"></i> Save
+                          </button>
+                        <?php } ?>
                       </form>
                   </div><!-- /.panel-body -->
               </div><!-- /.panel panel-default -->
