@@ -45,11 +45,13 @@ class ReplyController extends Controller
             }
             $Reply = null;
             $Reply = Reply::where('question_id', '=', $question_id)->where('user_id', '=', $user_id)->first();
-            $Reply_text  = null;
-            $Reply_text  = isset($Reply->reply_text) ? $Reply->reply_text : null;
-            $record_text = null;
-            $record_text = array('question_id' => $question_id, 'reply_text' => $Reply_text);
-            array_push($Replies, $record_text);
+            if (!is_null($Reply)) {
+                $Reply_text  = null;
+                $Reply_text  = isset($Reply->reply_text) ? $Reply->reply_text : null;
+                $record_text = null;
+                $record_text = array('question_id' => $question_id, 'reply_text' => $Reply_text);
+                array_push($Replies, $record_text);
+            }
           }
         }
 
