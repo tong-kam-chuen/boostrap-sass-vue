@@ -368,7 +368,7 @@
                                   <input type="file" @change="updatePhoto" class="form-control" id="updatePhoto" placeholder="file">
                                 </div>
                               </div>
-                              <div class="form-group row">
+                              <div class="form-group row" style="display:none">
                                 <label for="photo" class="col-sm-2 col-form-label">Photo</label>
                                 <div class="col-sm-10">
                                   <input v-model="form.photo" name="photo" type="text" class="form-control" id="inputPhoto" placeholder="Photo">
@@ -431,13 +431,18 @@
         },
         methods: {
             getProfilePhoto() {
-                return "img/profile/" + this.form.photo;
+                let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/" + this.form.photo;
+                return photo;
             },
             updateProfile() {
                 this.$Progress.start();
+                if (this.form.password == '') {
+                    this.form.password = undefined;
+                }
                 this.form.put('api/profile/')
                 .then(() => {
 
+                    Fire.$emit('AfterCreate');
                     Swal.fire(
                       'Updated!',
                       'Information has been updated.',

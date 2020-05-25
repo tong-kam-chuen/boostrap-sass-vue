@@ -5699,13 +5699,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProfilePhoto: function getProfilePhoto() {
-      return "img/profile/" + this.form.photo;
+      var photo = this.form.photo.length > 200 ? this.form.photo : "img/profile/" + this.form.photo;
+      return photo;
     },
     updateProfile: function updateProfile() {
       var _this = this;
 
       this.$Progress.start();
+
+      if (this.form.password == '') {
+        this.form.password = undefined;
+      }
+
       this.form.put('api/profile/').then(function () {
+        Fire.$emit('AfterCreate');
         Swal.fire('Updated!', 'Information has been updated.', 'success');
 
         _this.$Progress.finish();
@@ -67074,49 +67081,56 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "col-sm-2 col-form-label",
-                              attrs: { for: "photo" }
-                            },
-                            [_vm._v("Photo")]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-sm-10" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.photo,
-                                  expression: "form.photo"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                name: "photo",
-                                type: "text",
-                                id: "inputPhoto",
-                                placeholder: "Photo"
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form-group row",
+                            staticStyle: { display: "none" }
+                          },
+                          [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-sm-2 col-form-label",
+                                attrs: { for: "photo" }
                               },
-                              domProps: { value: _vm.form.photo },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                              [_vm._v("Photo")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-10" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.photo,
+                                    expression: "form.photo"
                                   }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "photo",
-                                    $event.target.value
-                                  )
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  name: "photo",
+                                  type: "text",
+                                  id: "inputPhoto",
+                                  placeholder: "Photo"
+                                },
+                                domProps: { value: _vm.form.photo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "photo",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                              }
-                            })
-                          ])
-                        ]),
+                              })
+                            ])
+                          ]
+                        ),
                         _vm._v(" "),
                         _vm._m(6),
                         _vm._v(" "),
