@@ -10,7 +10,7 @@
                         <h5 class="widget-user-desc text-right">Web Designer</h5>
                       </div>
                       <div class="widget-user-image">
-                        <img class="img-circle" src="img/profile.png" alt="User Avatar">
+                        <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
                       </div>
                       <div class="card-footer">
                         <div class="row">
@@ -204,19 +204,19 @@
                               <!-- /.user-block -->
                               <div class="row mb-3">
                                 <div class="col-sm-6">
-                                  <img class="img-fluid" src="img/logo.png" alt="Photo">
+                                  <img class="img-fluid" src="img/profile.png" alt="Photo" />
                                 </div>
                                 <!-- /.col -->
                                 <div class="col-sm-6">
                                   <div class="row">
                                     <div class="col-sm-6">
-                                      <img class="img-fluid mb-3" src="img/logo.png" alt="Photo">
-                                      <img class="img-fluid" src="img/logo.jpg" alt="Photo">
+                                      <img class="img-fluid mb-3" src="img/logo.png" alt="Photo" />
+                                      <img class="img-fluid" src="http://placehold.it/150x100" alt="Photo" />
                                     </div>
                                     <!-- /.col -->
                                     <div class="col-sm-6">
-                                      <img class="img-fluid mb-3" src="img/logo.jpg" alt="Photo">
-                                      <img class="img-fluid" src="img/logo.png" alt="Photo">
+                                      <img class="img-fluid mb-3" src="img/logo.png" alt="Photo" />
+                                      <img class="img-fluid" src="http://placehold.it/150x100" alt="Photo" />
                                     </div>
                                     <!-- /.col -->
                                   </div>
@@ -342,28 +342,45 @@
                               <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
-                                  <input v-model="form.name" type="name" class="form-control" id="inputName" placeholder="Name">
+                                  <input v-model="form.name" name="name" type="name" class="form-control" id="inputName" placeholder="Name">
+                                  <has-error :form="form" field="name"></has-error>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                  <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                  <input v-model="form.email" name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
+                                     :class="{ 'is-invalid': form.errors.has('email') }"
+                                   >
+                                   <has-error :form="form" field="email"></has-error>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="bio" class="col-sm-2 col-form-label">Bio</label>
                                 <div class="col-sm-10">
-                                  <textarea v-model="form.bio" class="form-control" id="inputBio" placeholder="Bio"></textarea>
+                                  <textarea v-model="form.bio" name="bio" class="form-control" id="inputBio" placeholder="Bio"></textarea>
+                                  <has-error :form="form" field="bio"></has-error>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="upload" class="col-sm-2 col-form-label">Upload</label>
+                                <div class="col-sm-10">
+                                  <input type="file" @change="updatePhoto" class="form-control" id="updatePhoto" placeholder="file">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="photo" class="col-sm-2 col-form-label">Photo</label>
                                 <div class="col-sm-10">
-                                  <input type="file" class="form-control" id="inputPhoto" placeholder="file">
+                                  <input v-model="form.photo" name="photo" type="text" class="form-control" id="inputPhoto" placeholder="Photo">
                                 </div>
                               </div>
                               <div class="form-group row">
+                                <label for="photo" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                  <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                </div>
+                              </div>
+                              <!-- <div class="form-group row">
                                 <div class="offset-sm-2 col-sm-10">
                                   <div class="checkbox">
                                     <label>
@@ -371,10 +388,10 @@
                                     </label>
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
                               <div class="form-group row">
                                 <div class="offset-sm-2 col-sm-10">
-                                  <button type="submit" class="btn btn-danger">Submit</button>
+                                  <button @click.prevent="updateProfile" type="submit" class="btn btn-danger">Submit</button>
                                 </div>
                               </div>
                             </form>
@@ -412,7 +429,72 @@
         mounted() {
             console.log('Component mounted.')
         },
+        methods: {
+            getProfilePhoto() {
+                return "img/profile/" + this.form.photo;
+            },
+            updateProfile() {
+                this.$Progress.start();
+                this.form.put('api/profile/')
+                .then(() => {
 
+                    Swal.fire(
+                      'Updated!',
+                      'Information has been updated.',
+                      'success'
+                    );
+                    this.$Progress.finish();
+
+                })
+                .catch(() => {
+
+                    Swal.fire(
+                      'Failed!',
+                      'There was something wrong.',
+                      'warning'
+                    );
+                    this.$Progress.fail();
+
+                });
+            },
+            updatePhoto(e) {
+                let filesSelected = e.target.files;
+                // let filesSelected = document.getElementById("updatePhoto").files;
+                if (filesSelected.length > 0) {
+
+                    let file       = filesSelected[0];
+                    let fileReader = new FileReader();
+
+                    if (file['size'] < 2111775) {
+
+                        fileReader.onloadend = (file) => {
+                           this.form.photo = fileReader.result;
+                        }
+
+                        // fileReader.onload = (file) => {
+                        //     var srcData = file.target.result;
+                        //     var newImage = document.createElement('img');
+                        //     newImage.src = srcData;
+                        //     document.getElementById("inputPhoto").value = fileReader.result; // document.getElementById("inputPhoto").innerHTML = newImage.outerHTML;
+                        //     alert("Converted Base64 version is " + document.getElementById("inputPhoto").value);
+                        //     console.log("Converted Base64 version is " + document.getElementById("inputPhoto").value);
+                        // }
+
+                        fileReader.readAsDataURL(file);
+
+                    } else {
+
+                        swal({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'You are uploading a large file over 2MB',
+                        })
+
+                    }
+
+                }
+            }
+        },
         created() {
             axios.get("api/profile").then(
                 ({ data }) => (this.form.fill(data))

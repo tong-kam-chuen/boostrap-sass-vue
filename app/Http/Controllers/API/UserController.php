@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -26,7 +27,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::latest()->paginate(10);
+        if (Auth::user()->type == 'admin') {
+          return User::latest()->paginate(10);
+        } else {
+          return null;
+        }
     }
 
     /**
@@ -69,10 +74,53 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function profile()
+    public function readProfile()
     {
-        // return Auth::user();
         return auth('api')->user();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = auth('api')->user();
+        $currentPhoto = $user->photo;
+
+        $this->validate($request, [
+          'name' => 'required|string|max:255',
+          'email'=> 'required|email|unique:users,email,'.$user->id,
+          'password' => 'sometimes|min:6',
+        ]);
+
+        if (!empty($request->password)) {
+            $request->merge(['password' => bcrpt($request->password)]);
+        }
+
+        if ($request->photo != $currentPhoto) {
+            $photo = time().'.'.
+            explode('/',
+                      explode(':',
+                                substr($request->photo, 0,
+                                        strpos($request->photo, ';')
+                                      )
+                              )[1]
+                    )[1];
+
+            \Image::make($request->photo)->save(public_path('img/profile/').$photo);
+
+            $request->merge(['photo' => $photo]);
+
+            $userPhoto = public_path('img/profile/').$currentPhoto;
+            if (file_exists($userPhoto)) {
+                @unlink($userPhoto);
+            }
+        }
+        $user->update($request->all());
+
+        return ['message' => 'Profile Updated'];
     }
 
     /**
