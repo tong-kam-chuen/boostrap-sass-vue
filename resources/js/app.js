@@ -65,6 +65,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.component('dashboard', require('./components/Dashboard.vue').default);
+Vue.component('developer', require('./components/Developer.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
 
