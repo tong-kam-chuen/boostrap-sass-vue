@@ -1,6 +1,7 @@
 <template>
     <!-- <div class="container"> -->
     <div class="row">
+       <!-- v-if="$gate.isAdmin()" -->
       <div class="col-lg-12">
         <div class="card">
           <!-- /.card-header -->

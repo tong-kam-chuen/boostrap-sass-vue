@@ -167,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="info">
           <a href="#" class="d-block">
                   {{ Auth::user()->name }}
-          </a> -  {{ Auth::user()->type }}
+          </a>
         </div>
       </div>
 
@@ -186,33 +186,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
-          <?php if ( Auth::user()->type == 'admin' )  { ?>
+          @can('isAdmin')
 
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-cog green"></i>
-                <p>
-                  Control
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <router-link to="/users" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>Users</p>
-                  </router-link>
-                </li>
-                <li class="nav-item">
-                  <router-link to="/developer" class="nav-link">
-                    <i class="nav-icon fas fa-cogs"></i>
-                    <p>Developers</p>
-                  </router-link>
-                </li>
-              </ul>
-            </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-cog green"></i>
+              <p>
+                Control
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/users" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>Users</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/developer" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>Developers</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
 
-          <?php } ?>
+          @endcan
 
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
@@ -369,6 +369,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+
+@auth
+    window.user = @json(auth()->user())
+@endauth
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" ></script>

@@ -15,6 +15,9 @@ Vue.use(VueRouter);
 window.Form = Form;
 import { Form, HasError, AlertError } from 'vform';
 
+import Gate from "./Gate";
+Vue.prototype.$gate = new Gate(window.user);
+
 Vue.filter('upText', function (text) {
     return text.charAt(0).toUpperCase() + text.slice(1)
 });
