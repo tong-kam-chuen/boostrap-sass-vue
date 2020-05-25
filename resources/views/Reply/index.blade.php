@@ -38,12 +38,10 @@
                 $current_number++;
                 $question_id = isset($record->id) ? $record->id : null;
                 $question_type = isset($record->question_type) ? $record->question_type : null;
-                // $reply_next = false;
                 $reply_text = null;
                 foreach ($Replies as $rec) {
                   if ($rec['question_id'] == $question_id) {
                     $reply_text = isset($rec['reply_text']) ? $rec['reply_text'] : null;
-                    // $reply_next = is_null($reply_text) ? false : true;
                   }
                 }
                ?>
@@ -71,17 +69,17 @@
                             echo ($reply_text) ? htmlspecialchars($reply_text) : null;
                             ?>
                          </textarea>
+                         </div>
+                         <br />
+                         <br />
+                         <br />
+                         <br />
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
-                         <br />
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
@@ -92,13 +90,13 @@
                          <input name="reply_text" type="text" class="form-control" value="<?php
                           echo ($reply_text) ? $reply_text : null;
                           ?>" <?php if ($reply_text) echo 'readonly' ?> required placeholder="Text" />
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
@@ -118,13 +116,13 @@
                             }
                             ?>
                          </select>
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
@@ -135,64 +133,69 @@
                          <input name="reply_text" type="number" class="form-control" value="<?php
                           echo ($reply_text) ? trim($reply_text) : null;
                           ?>" <?php if ($reply_text) echo 'readonly' ?> required placeholder="Number" />
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
                         <?php
                             case 'date':
                          ?>
-                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                         <input name="reply_text" type="date" class="form-control" value="<?php
+                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                         <input name="reply_date" type="date" class="form-control" value="<?php
                           echo ($reply_text) ? date('Y-m-d', strtotime($reply_text)) : null;
                           ?>" <?php if ($reply_text) echo 'readonly' ?> required />
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
                         <?php
                             case 'time':
                          ?>
-                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                         <input name="reply_text" type="time" class="form-control" value="<?php
+                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                         <input name="reply_time" type="time" class="form-control" value="<?php
                           echo ($reply_text) ? date('H:i:s', strtotime($reply_text)) : null;
                           ?>" <?php if ($reply_text) echo 'readonly' ?> required />
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>
                         <?php
                             case 'datetime':
                          ?>
-                         <div class="col-xs-12 col-sm-9 col-md-6 col-lg-4">
-                         <input name="reply_text" type="datetime" class="form-control" value="<?php
-                          echo ($reply_text) ? date('Y-m-d H:i:s', strtotime($reply_text)) : null;
+                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                         <input name="reply_date" type="date" class="form-control" value="<?php
+                          echo ($reply_text) ? date('Y-m-d', strtotime($reply_text)) : null;
                           ?>" <?php if ($reply_text) echo 'readonly' ?> required />
+                         </div>
+                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                         <input name="reply_time" type="time" class="form-control" value="<?php
+                          echo ($reply_text) ? date('H:i:s', strtotime($reply_text)) : null;
+                          ?>" <?php if ($reply_text) echo 'readonly' ?> required />
+                         </div>
+                         <br />
+                         <br />
+                         <br />
                          <div id="signature" style="display:none">
                            <canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas><br />
                          </div>
-                         </div>
-                         <br />
-                         <br />
-                         <br />
                         <?php
                             break;
                          ?>

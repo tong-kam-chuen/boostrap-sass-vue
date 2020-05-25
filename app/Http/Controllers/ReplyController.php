@@ -78,7 +78,17 @@ class ReplyController extends Controller
     {
         $user_id = isset(Auth::user()->id) ? Auth::user()->id : null;
         $reply_text = isset($request->reply_text)? $request->reply_text : null;
+        $reply_date = isset($request->reply_date)? $request->reply_date : null;
+        $reply_time = isset($request->reply_time)? $request->reply_time : null;
         $question_id = isset($request->question_id)? $request->question_id : null;
+
+        if (isset($reply_date) && $reply_time) {
+          $reply_text = $reply_date . ' ' . $reply_time;
+        } else if (isset($reply_date)) {
+          $reply_text = $reply_date;
+        } else if (isset($reply_time)) {
+          $reply_text = $reply_time;
+        }
 
         $Reply = new Reply;
         $Reply->reply_text = $reply_text;
