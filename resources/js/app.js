@@ -71,7 +71,7 @@ Vue.component('dashboard', require('./components/Dashboard.vue').default);
 Vue.component('developer', require('./components/Developer.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
-
+Vue.component('not-found', require('./components/NotFound.vue').default);
 Vue.component('passport-clients', require('./components/passport/Clients.vue').default);
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue').default);
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue').default);

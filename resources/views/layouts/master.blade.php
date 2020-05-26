@@ -167,6 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="info">
           <a href="#" class="d-block">
                   {{ Auth::user()->name }}
+                  <p>{{ Auth::user()->type }}</p>
           </a>
         </div>
       </div>
@@ -371,7 +372,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 @auth
+<script>
     window.user = @json(auth()->user())
+</script>
 @endauth
 
 <!-- Scripts -->
