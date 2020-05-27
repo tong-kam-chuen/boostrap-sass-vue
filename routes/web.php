@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth']], function() {
       return redirect('dashboard');
   });
 
+  Route::get('invoice', function(){
+      return view('invoice');
+  });
+
   Route::resource('Replies','ReplyController');
   Route::resource('Options','OptionController');
   Route::resource('Questions','QuestionController');

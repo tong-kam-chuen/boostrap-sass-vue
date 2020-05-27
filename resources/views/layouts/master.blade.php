@@ -37,10 +37,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="home" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="profile" class="nav-link">Contact</a>
+        <a href="profile" class="nav-link">Setting</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="printme" class="nav-link" target="_blank" @click.prevent="printme">Print</a>
+        <a href="invoice" class="nav-link">Invoice</a>
       </li>
     </ul>
 
