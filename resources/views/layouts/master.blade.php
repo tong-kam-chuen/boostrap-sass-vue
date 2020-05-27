@@ -39,23 +39,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item d-none d-sm-inline-block">
         <a href="profile" class="nav-link">Contact</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="printme" class="nav-link" target="_blank" @click.prevent="printme">Print</a>
+      </li>
     </ul>
 
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3">
+    </form>
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search"
+         @keyup="searchit" v-model="search" style="max-width:200px" >
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" type="submit" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      Messages Dropdown Menu
+      Messages
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
@@ -113,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-      Notifications Dropdown Menu
+      Notifications
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>

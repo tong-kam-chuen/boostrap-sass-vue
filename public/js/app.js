@@ -5945,12 +5945,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6056,7 +6050,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.loadUsers();
     Fire.$on('searching', function () {
-      var query = _this5.search;
+      var query = _this5.$parent.search;
 
       if (_this5.$gate.isAdminOrAuthor()) {
         axios.get('api/findUser?q=' + query).then(function (_ref2) {
@@ -68761,43 +68755,11 @@ var render = function() {
                   },
                   [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.search,
-                          expression: "search"
-                        }
-                      ],
                       staticClass: "form-control float-right",
                       attrs: {
                         type: "text",
                         name: "table_search",
                         placeholder: "Search"
-                      },
-                      domProps: { value: _vm.search },
-                      on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.searchit($event)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.search = $event.target.value
-                        }
                       }
                     }),
                     _vm._v(" "),
@@ -68831,27 +68793,45 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.users.data, function(user) {
                     return _c("tr", { key: user.id }, [
-                      _c("td", [_vm._v(_vm._s(user.id))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.email))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm._f("upText")(user.type)))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.bio))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.photo))]),
+                      _c("td", [
+                        _c("span", { staticStyle: { "font-size": "11px" } }, [
+                          _vm._v(_vm._s(user.id) + "                     ")
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("td", [
-                        _c("span", { staticStyle: { "font-size": "8px" } }, [
-                          _vm._v(_vm._s(_vm._f("formatDate")(user.created_at)))
+                        _c("span", { staticStyle: { "font-size": "11px" } }, [
+                          _vm._v(_vm._s(user.name) + "                   ")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticStyle: { "font-size": "11px" } }, [
+                          _vm._v(_vm._s(user.email) + "                  ")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticStyle: { "font-size": "11px" } }, [
+                          _vm._v(
+                            _vm._s(_vm._f("upText")(user.type)) + "          "
+                          )
                         ])
                       ]),
                       _vm._v(" "),
                       _c("td", [
                         _c("span", { staticStyle: { "font-size": "8px" } }, [
-                          _vm._v(_vm._s(_vm._f("formatDate")(user.updated_at)))
+                          _vm._v(
+                            " " + _vm._s(_vm._f("formatDate")(user.created_at))
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticStyle: { "font-size": "8px" } }, [
+                          _vm._v(
+                            " " + _vm._s(_vm._f("formatDate")(user.updated_at))
+                          )
                         ])
                       ]),
                       _vm._v(" "),
@@ -69347,10 +69327,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
         _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Bio")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Photo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Created_At")]),
         _vm._v(" "),
@@ -85881,8 +85857,11 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     search: ''
   },
   methods: {
-    searchit: function searchit() {
+    searchit: _.debounce(function () {
       Fire.$emit('searching');
+    }, 1000),
+    printme: function printme() {
+      window.print();
     }
   }
 });

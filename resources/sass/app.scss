@@ -20,3 +20,16 @@ $fa-font-path: "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+@media print {
+    .nav.nav-tabs li:not(.active) {
+        display: none;
+    }
+    .table-responsive table {
+        background-color: transparent !important;
+    }
+}
+
+@page {
+    margin: 0;
+}

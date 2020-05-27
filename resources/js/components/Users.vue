@@ -9,9 +9,7 @@
               Users Table
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 290px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search"
-                 @keyup.enter="searchit" v-model="search" >
-
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search" >
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                 </div>
@@ -32,8 +30,6 @@
                   <th>User</th>
                   <th>Email</th>
                   <th>Type</th>
-                  <th>Bio</th>
-                  <th>Photo</th>
                   <th>Created_At</th>
                   <th>Updated_At</th>
                   <th>Modify</th>
@@ -41,14 +37,12 @@
               </thead>
               <tbody>
                 <tr v-for="user in users.data" :key="user.id">
-                  <td>{{ user.id }}</td>
-                  <td>{{ user.name }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.type | upText }}</td>
-                  <td>{{ user.bio }}</td>
-                  <td>{{ user.photo }}</td>
-                  <td><span style="font-size:8px">{{ user.created_at | formatDate }}</span></td>
-                  <td><span style="font-size:8px">{{ user.updated_at | formatDate }}</span></td>
+                  <td><span style="font-size:11px">{{ user.id }}                     </span></td>
+                  <td><span style="font-size:11px">{{ user.name }}                   </span></td>
+                  <td><span style="font-size:11px">{{ user.email }}                  </span></td>
+                  <td><span style="font-size:11px">{{ user.type | upText }}          </span></td>
+                  <td><span style="font-size:8px"> {{ user.created_at | formatDate }}</span></td>
+                  <td><span style="font-size:8px"> {{ user.updated_at | formatDate }}</span></td>
                   <td>
                     <a href="#" class="blue" @click="editModal(user)">Edit
                       <i class="fa fa-edit blue"></i>
@@ -259,7 +253,7 @@
       created () {
           this.loadUsers();
           Fire.$on('searching', () => {
-              let query = this.search;
+              let query = this.$parent.search;
               if (this.$gate.isAdminOrAuthor()) {
                 axios.get('api/findUser?q=' + query)
                      .then(({ data }) => {

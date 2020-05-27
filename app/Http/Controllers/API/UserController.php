@@ -165,23 +165,12 @@ class UserController extends Controller
      */
     public function searchRecords(Request $request)
     {
-        $search = (\Request::get('q')) ? \Request::get('q') : null;
-        // if (!is_null($search)) {
-        //     $users = User::latest()->where(
-        //         function($query) use ($search) {
-        //                   $query->where('name', 'LIKE', "%$search%")
-        //                         ->orWhere('type', 'LIKE',  "%$search%")
-        //                         ->orWhere('email', 'LIKE',  "%$search%");
-        //         }
-        //     )->paginate(3);
-        // } else {
-        //     $users = User::latest()->paginate(3);
-        // }
-        $users = User::latest()->when($search,
-                  function ($query) use ($search) {
-                    return $query->orWhere('name', 'LIKE', "%{$search}%")
-                                 ->orWhere('type', 'LIKE', "%{$search}%")
-                                 ->orWhere('email', 'LIKE', "%{$search}%");
+        $where = (\Request::get('q')) ? \Request::get('q') : null;
+        $users = User::latest()->when($where,
+                  function ($query) use ($where) {
+                    return $query->orWhere('name', 'LIKE', "%{$where}%")
+                                 ->orWhere('type', 'LIKE', "%{$where}%")
+                                 ->orWhere('email','LIKE', "%{$where}%");
                   }
                 )->paginate(3);
 
