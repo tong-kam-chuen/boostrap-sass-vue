@@ -5950,9 +5950,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      search: '',
       editmode: false,
       users: {},
       form: new Form({
@@ -6044,12 +6046,25 @@ __webpack_require__.r(__webpack_exports__);
         title: 'User Created Successfully'
       });
       this.$Progress.finish();
+    },
+    searchit: function searchit() {
+      Fire.$emit('searching');
     }
   },
   created: function created() {
     var _this5 = this;
 
     this.loadUsers();
+    Fire.$on('searching', function () {
+      var query = _this5.search;
+
+      if (_this5.$gate.isAdminOrAuthor()) {
+        axios.get('api/findUser?q=' + query).then(function (_ref2) {
+          var data = _ref2.data;
+          _this5.users = data;
+        })["catch"](function () {});
+      }
+    });
     Fire.$on('AfterCreate', function () {
       _this5.loadUsers();
     });
@@ -68746,11 +68761,43 @@ var render = function() {
                   },
                   [
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search,
+                          expression: "search"
+                        }
+                      ],
                       staticClass: "form-control float-right",
                       attrs: {
                         type: "text",
                         name: "table_search",
                         placeholder: "Search"
+                      },
+                      domProps: { value: _vm.search },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.searchit($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.search = $event.target.value
+                        }
                       }
                     }),
                     _vm._v(" "),
@@ -85793,6 +85840,12 @@ var routes = [{
 }, {
   path: '/users',
   component: __webpack_require__(/*! ./components/Users.vue */ "./resources/js/components/Users.vue")["default"]
+}, {
+  path: '/home',
+  component: __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue")["default"]
+}, {
+  path: '*',
+  component: __webpack_require__(/*! ./components/NotFound.vue */ "./resources/js/components/NotFound.vue")["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -85823,7 +85876,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('passport-personal-access-t
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  router: router
+  router: router,
+  data: {
+    search: ''
+  },
+  methods: {
+    searchit: function searchit() {
+      Fire.$emit('searching');
+    }
+  }
 });
 
 /***/ }),

@@ -156,4 +156,38 @@ class UserController extends Controller
 
         return ['message' => 'User Deleted'];
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchRecords(Request $request)
+    {
+        $search = (\Request::get('q')) ? \Request::get('q') : null;
+        // if (!is_null($search)) {
+        //     $users = User::latest()->where(
+        //         function($query) use ($search) {
+        //                   $query->where('name', 'LIKE', "%$search%")
+        //                         ->orWhere('type', 'LIKE',  "%$search%")
+        //                         ->orWhere('email', 'LIKE',  "%$search%");
+        //         }
+        //     )->paginate(3);
+        // } else {
+        //     $users = User::latest()->paginate(3);
+        // }
+        $users = User::latest()->when($search,
+                  function ($query) use ($search) {
+                    return $query->orWhere('name', 'LIKE', "%{$search}%")
+                                 ->orWhere('type', 'LIKE', "%{$search}%")
+                                 ->orWhere('email', 'LIKE', "%{$search}%");
+                  }
+                )->paginate(3);
+
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            return $users;
+        }
+    }
+
 }

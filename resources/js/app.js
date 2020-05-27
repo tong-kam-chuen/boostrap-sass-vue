@@ -51,7 +51,9 @@ let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default },
   { path: '/developer', component: require('./components/Developer.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default },
-  { path: '/users', component: require('./components/Users.vue').default }
+  { path: '/users', component: require('./components/Users.vue').default },
+  { path: '/home', component: require('./components/Dashboard.vue').default },
+  { path: '*', component: require('./components/NotFound.vue').default }
 ];
 
 const router = new VueRouter({
@@ -84,5 +86,14 @@ Vue.component('passport-personal-access-tokens', require('./components/passport/
  */
 
 const app = new Vue({
-    el: '#app', router
+    el: '#app',
+    router,
+    data: {
+        search: ''
+    },
+    methods: {
+        searchit() {
+            Fire.$emit('searching');
+        }
+    }
 });

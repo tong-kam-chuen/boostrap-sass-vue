@@ -9,7 +9,8 @@
               Users Table
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 290px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search"
+                 @keyup.enter="searchit" v-model="search" >
 
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -150,6 +151,7 @@
     export default {
       data () {
         return {
+          search: '',
           editmode: false,
           users : {},
           form : new Form({
@@ -249,10 +251,25 @@
               });
 
               this.$Progress.finish();
+          },
+          searchit() {
+              Fire.$emit('searching');
           }
       },
       created () {
           this.loadUsers();
+          Fire.$on('searching', () => {
+              let query = this.search;
+              if (this.$gate.isAdminOrAuthor()) {
+                axios.get('api/findUser?q=' + query)
+                     .then(({ data }) => {
+                        this.users = data
+                     })
+                     .catch(() => {
+
+                     });
+              }
+          });
           Fire.$on('AfterCreate', () => {
               this.loadUsers();
           });

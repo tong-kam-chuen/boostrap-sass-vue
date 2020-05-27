@@ -1,21 +1,55 @@
 @include('layouts.header')
 
 <div class="container">
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
 
-        <div class="row mb-2">
-          <div class="col-xs-0  col-sm-3 col-md-6">
+        <div class="row justify-content-center mb-3">
+          <div class="col-md-12 col-md-offset-0">
+
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @auth
+                        <ol class="breadcrumb float-sm-right">
+                          <li class="breadcrumb-item"><a href="home">Home</a></li>
+                          <li class="breadcrumb-item"><a href="Questionnaires">Questionnaires</a></li>
+                          <li class="breadcrumb-item active">Reply Page</li>
+                        </ol>
+                    @else
+                        <a href="{{ route('login') }}">Login</a> |
+                        <a href="{{ url('/home') }}">Home</a> |
+                        <a href="{{ url('/Questionnaires') }}">Reply</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+
           </div>
-          <div class="col-xs-12 col-sm-9 col-md-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home">Home</a></li>
-              <li class="breadcrumb-item"><a href="Questionnaires">Questionnaires</a></li>
-              <li class="breadcrumb-item active">Reply Page</li>
-            </ol>
-          </div>
+        </div>
+        <div style="both:clear; margin-bottom:80px"></div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Dashboard</div>
+
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        You are logged in!
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row justify-content-center mb-3">

@@ -143,34 +143,4 @@ class ReplyController extends Controller
     {
         //
     }
-
-    public function saveImage(Request $request)
-    {
-        $image = Image::make($request->get('imgBase64'));
-        $image->save('public/img/profile.jpg');
-    }
-
-    public function setavatareffect(Request $request)
-    {
-        $user = User::where('username', Auth::user()->username)->firstOrFail();
-        $user_avatar_path = array_filter(File::allFiles('public/storage/users/' . Auth::user()->id . '-' . Auth::user()->reg_num),
-
-        function ($user_avatar_path)
-        {
-            return preg_match('/\b' . Auth::user()->reg_num. '(.*)/', $user_avatar_path);
-        });
-
-        $path = 'public/users/' . Auth::user()->id . '-' . Auth::user()->reg_num . '/' . 'edited_avatar';
-        $save_path = 'public/storage/users/' . Auth::user()->id . '-' . Auth::user()->reg_num . '/' . 'edited_avatar';
-        if ( !Storage::exists ($path) ) {
-            Storage::MakeDirectory($path, 0755, true);
-        }
-        foreach ( $user_avatar_path as $user_path )
-        {
-            $image = Image::make($user_path);
-            $image->save($save_path . '/e_' . Auth::user()->u_avatar);
-        }
-
-        return redirect()->back();
-    }
 }

@@ -7,25 +7,40 @@
     <div class="content-header">
       <div class="container-fluid">
 
-        <div class="row mb-2">
-          <div class="col-xs-0  col-sm-3 col-md-6">
-          </div>
-          <div class="col-xs-12 col-sm-9 col-md-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home">Home</a></li>
-              <li class="breadcrumb-item"><a href="{{ route('Questionnaires.index') }}">Questionnaires</a></li>
-              <li class="breadcrumb-item">
-                <a class="dropdown-item" href="{{ route('Questions.index') }}"
-                   onclick="event.preventDefault(); document.getElementById('back-form').submit();">Questions
-                </a>
-              </li>
-              <li class="breadcrumb-item active">Options Page</li>
-            </ol>
+        <div class="row justify-content-center mb-3">
+          <div class="col-md-12 col-md-offset-0">
+
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @auth
+                        <ol class="breadcrumb float-sm-right">
+                          <li class="breadcrumb-item"><a href="home">Home</a></li>
+                          <li class="breadcrumb-item"><a href="Questionnaires">Questionnaires</a></li>
+                          <li class="breadcrumb-item">
+                            <a class="dropdown-item" href="{{ route('Questions.index') }}"
+                               onclick="event.preventDefault(); document.getElementById('back-form').submit();">Questions
+                            </a>
+                            <form id="back-form" action="{{ route('Questions.index') }}" method="GET" style="display: none;">
+                              <input type="hidden" class="form-control" name="questionnaire_id" value="{{ $questionnaire_id }}" />
+                            </form>
+                          </li>
+                          <li class="breadcrumb-item active">Options Page</li>
+                        </ol>
+                    @else
+                        <a href="{{ route('login') }}">Login</a> |
+                        <a href="{{ url('/home') }}">Home</a> |
+                        <a href="{{ url('/Questionnaires') }}">Reply</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+
           </div>
         </div>
-        <form id="back-form" action="{{ route('Questions.index') }}" method="GET" style="display: none;">
-          <input type="hidden" class="form-control" name="questionnaire_id" value="{{ $questionnaire_id }}" />
-        </form>
+        <div style="both:clear; margin-bottom:80px"></div>
 
         <div class="row justify-content-center mb-3">
           <div class="col-md-12 col-md-offset-0">
