@@ -133,7 +133,7 @@
 
     </div>
     <div class="row" v-else >
-      <not-found></not-found>
+      <unauthorized></unauthorized>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="$gate.isAdmin()" >
     <div class="col-lg-12">
       <passport-clients></passport-clients>
     </div>
@@ -9,6 +9,9 @@
     <div class="col-lg-12">
       <passport-personal-access-tokens></passport-personal-access-tokens>
     </div>
+  </div>
+  <div class="row" v-else >
+    <unauthorized></unauthorized>
   </div>
 </template>
 
