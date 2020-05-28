@@ -8,7 +8,7 @@
             <span class="card-title"></span>
               Users Table
             <div class="card-tools">
-              <div class="input-group input-group-sm" style="width: 290px;">
+              <div class="input-group input-group-sm">
                 <div class="input-group-append">
                   <button class="btn btn-success" @click="newModal" >
                     Add New <i class="fas fa-user-plus fa-fw yellow"></i>
