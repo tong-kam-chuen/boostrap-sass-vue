@@ -5967,7 +5967,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get('api/user?page=' + page).then(function (response) {
+      var query = this.$parent.search;
+      axios.get('api/user?page=' + page + '&q=' + query).then(function (response) {
         _this.users = response.data;
       });
     },
@@ -6053,7 +6054,7 @@ __webpack_require__.r(__webpack_exports__);
       var query = _this5.$parent.search;
 
       if (_this5.$gate.isAdminOrAuthor()) {
-        axios.get('api/findUser?q=' + query).then(function (_ref2) {
+        axios.get('api/user?q=' + query).then(function (_ref2) {
           var data = _ref2.data;
           _this5.users = data;
         })["catch"](function () {});

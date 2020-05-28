@@ -161,7 +161,8 @@
       },
       methods: {
           getResults(page = 1) {
-              axios.get('api/user?page=' + page)
+              let query = this.$parent.search;
+              axios.get('api/user?page=' + page + '&q=' + query)
                    .then(response => {
                       this.users = response.data;
                    });
@@ -255,7 +256,7 @@
           Fire.$on('searching', () => {
               let query = this.$parent.search;
               if (this.$gate.isAdminOrAuthor()) {
-                axios.get('api/findUser?q=' + query)
+                axios.get('api/user?q=' + query)
                      .then(({ data }) => {
                         this.users = data
                      })

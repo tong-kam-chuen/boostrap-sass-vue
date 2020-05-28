@@ -27,8 +27,17 @@ class UserController extends Controller
      */
     public function index()
     {
+        $where = (\Request::get('q')) ? \Request::get('q') : null;
+        $users = User::latest()->when($where,
+                  function ($query) use ($where) {
+                    return $query->orWhere('name', 'LIKE', "%{$where}%")
+                                 ->orWhere('type', 'LIKE', "%{$where}%")
+                                 ->orWhere('email','LIKE', "%{$where}%");
+                  }
+                )->paginate(3);
+
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-          return User::latest()->paginate(3);
+            return $users;
         }
     }
 
