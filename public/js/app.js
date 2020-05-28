@@ -5941,14 +5941,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      search: '',
       editmode: false,
       users: {},
       form: new Form({
@@ -68755,17 +68750,6 @@ var render = function() {
                     staticStyle: { width: "290px" }
                   },
                   [
-                    _c("input", {
-                      staticClass: "form-control float-right",
-                      attrs: {
-                        type: "text",
-                        name: "table_search",
-                        placeholder: "Search"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm._m(0),
-                    _vm._v(" "),
                     _c("div", { staticClass: "input-group-append" }, [
                       _c(
                         "button",
@@ -68788,7 +68772,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-body table-responsive p-0" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -68948,7 +68932,7 @@ var render = function() {
                       [_vm._v("Update User's Info")]
                     ),
                     _vm._v(" "),
-                    _vm._m(2)
+                    _vm._m(1)
                   ]),
                   _vm._v(" "),
                   _c(
@@ -69303,18 +69287,6 @@ var render = function() {
     : _c("div", { staticClass: "row" }, [_c("not-found")], 1)
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-default", attrs: { type: "submit" } },
-        [_c("i", { staticClass: "fas fa-search" })]
-      )
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

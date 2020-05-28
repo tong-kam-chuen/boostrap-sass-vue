@@ -9,10 +9,6 @@
               Users Table
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 290px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search" >
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                </div>
                 <div class="input-group-append">
                   <button class="btn btn-success" @click="newModal" >
                     Add New <i class="fas fa-user-plus fa-fw yellow"></i>
@@ -145,7 +141,6 @@
     export default {
       data () {
         return {
-          search: '',
           editmode: false,
           users : {},
           form : new Form({
@@ -247,7 +242,7 @@
 
               this.$Progress.finish();
           },
-          searchit() {
+          searchit () {
               Fire.$emit('searching');
           }
       },
